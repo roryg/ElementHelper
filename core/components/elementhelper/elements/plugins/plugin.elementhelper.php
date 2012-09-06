@@ -1,5 +1,4 @@
 <?php
-
 $default_element_helper_core_path = $modx->getOption('core_path') . 'components/elementhelper/';
 $element_helper_core_path = $modx->getOption('elementhelper.core_path', null, $default_element_helper_core_path);
 
@@ -31,27 +30,31 @@ $element_types = array(
 function get_files($directory_path)
 {
     $file_list = array();
-    $directory = opendir($directory_path);
 
-    // Get a list of files from the element types directory
-    while (($item = readdir($directory)) !== false)
-    {   
-        if ($item !== '.' && $item !== '..')
-        {
-            $item_path = $directory_path . $item;
+    if (is_dir($directory_path))
+    {
+        $directory = opendir($directory_path);
 
-            if (is_file($item_path))
+        // Get a list of files from the element types directory
+        while (($item = readdir($directory)) !== false)
+        {   
+            if ($item !== '.' && $item !== '..')
             {
-                $file_list[] = $item_path;
-            }
-            else
-            {
-                $file_list = array_merge($file_list, get_files($item_path . '/'));
+                $item_path = $directory_path . $item;
+
+                if (is_file($item_path))
+                {
+                    $file_list[] = $item_path;
+                }
+                else
+                {
+                    $file_list = array_merge($file_list, get_files($item_path . '/'));
+                }
             }
         }
-    }
 
-    closedir($directory);
+        closedir($directory);
+    }
 
     return $file_list;
 }
@@ -81,11 +84,18 @@ foreach ($element_types as $element_type)
     }
 }
 
-$tv_json = file_get_contents(MODX_BASE_PATH . $modx->getOption('elementhelper.tv_json_path'));
-$tvs = json_decode($tv_json);
 
-// Create all the template variables
-foreach ($tvs as $tv)
+$tv_json_path = MODX_BASE_PATH . $modx->getOption('elementhelper.tv_json_path');
+
+// Get the template variables
+if (file_exists($tv_json_path))
 {
-    $element_helper->create_tv($tv);
+    $tv_json = file_get_contents($tv_json_path);
+    $tvs = json_decode($tv_json);
+
+    // Create all the template variables
+    foreach ($tvs as $tv)
+    {
+        $element_helper->create_tv($tv);
+    }
 }
