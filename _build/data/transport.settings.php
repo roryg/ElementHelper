@@ -56,4 +56,13 @@ $settings['elementhelper.tv_access_control']->fromArray(array(
     'area' => 'default'
 ), '', true, true);
 
+$settings['elementhelper.auto_remove_elements'] = $modx->newObject('modSystemSetting');
+$settings['elementhelper.auto_remove_elements']->fromArray(array(
+    'key' => 'elementhelper.auto_remove_elements',
+    'value' => 0,
+    'xtype' => 'combo-boolean',
+    'namespace' => 'elementhelper',
+    'area' => 'default'
+), '', true, true);
+
 return $settings;

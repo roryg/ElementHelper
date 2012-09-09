@@ -113,8 +113,8 @@ else
     }
 }
 
-$modx->log(modX::LOG_LEVEL_INFO, 'Packing up transport package zip...');
 $modx->log(modX::LOG_LEVEL_INFO,'Adding package attributes and setup options...');
+$modx->log(modX::LOG_LEVEL_INFO, 'Packing up transport package zip...');
 
 $builder->setPackageAttributes(array(
     'license' => file_get_contents($sources['docs'] . 'license.txt'),

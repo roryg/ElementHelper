@@ -9,12 +9,8 @@ class ElementHelper
         $this->modx = $modx;
     }
 
-    public function create_element($element_type, $file_path)
+    public function create_element($element_type, $file_path, $file_type, $name)
     {
-        $file_type = explode('.', $file_path);
-        $file_type = '.' . end($file_type);
-
-        $name = basename($file_path, $file_type);
         $content = file_get_contents($file_path);
 
         // Weirdly MODx uses a different name title for templates
@@ -64,6 +60,9 @@ class ElementHelper
 
         foreach ($tv as $property => $value)
         {
+            // Get the category id
+            $value = ($property === 'category' ? $this->get_category_id($value) : 0);
+
             if ($property !== 'name' && $property !== 'template_access')
             {
                 $element->set($property, $value);

@@ -63,9 +63,16 @@ function get_files($directory_path)
 foreach ($element_types as $element_type)
 {
     $file_list = get_files(MODX_BASE_PATH . $element_type['path']);
+    $file_names = array();
 
     foreach ($file_list as $file)
     {
+        $file_type = explode('.', $file);
+        $file_type = '.' . end($file_type);
+        $file_name = basename($file, $file_type);
+
+        $file_names[] = $file_name;
+
         $category_path = dirname(str_replace(MODX_BASE_PATH . $element_type['path'], '', $file));
         $category_names = explode('/', $category_path);
 
@@ -80,7 +87,23 @@ foreach ($element_types as $element_type)
             }
         }
 
-        $element_helper->create_element($element_type, $file);
+        $element_helper->create_element($element_type, $file, $file_type, $file_name);
+    }
+
+    // Remove elements if they aren't in the elements folder anymore
+    if ($modx->getOption('elementhelper.auto_remove_elements') == true)
+    {
+        foreach ($modx->getCollection($element_type['class_name']) as $element)
+        {
+            // Seriously wtf is with using 'templatename' instead of 'name' just for template elements?!
+            $name_field = ($element_type['class_name'] === 'modTemplate' ? 'templatename' : 'name');
+
+            // Remove the element if it's not in the list of files and it's not the element_helper plugin
+            if (!in_array($element->get($name_field ), $file_names) && $element->get($name_field) != 'element_helper')
+            {
+                $element->remove();
+            }
+        }
     }
 }
 
@@ -92,10 +115,30 @@ if (file_exists($tv_json_path))
 {
     $tv_json = file_get_contents($tv_json_path);
     $tvs = json_decode($tv_json);
+    $tv_names = array();
 
     // Create all the template variables
     foreach ($tvs as $tv)
     {
+        $tv_names[] = $tv->name;
+
+        if (isset($tv->category))
+        {
+            $element_helper->create_category($tv->category, 0);
+        }
+
         $element_helper->create_tv($tv);
+    }
+
+    // Remove template variables if they aren't in the TV json file
+    if ($modx->getOption('elementhelper.auto_remove_elements') == true)
+    {
+        foreach ($modx->getCollection('modTemplateVar') as $template_var)
+        {
+            if (!in_array($template_var->get('name'), $tv_names))
+            {
+                $template_var->remove();
+            }
+        }
     }
 }
