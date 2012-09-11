@@ -1,3 +1,8 @@
+Element Helper 1.1.1
+====================================
+- Fixed bug causing TVs to their settings
+
+
 Element Helper 1.1.0
 ====================================
 - Fixed warnings/errors when trying to access directories that don't exist.

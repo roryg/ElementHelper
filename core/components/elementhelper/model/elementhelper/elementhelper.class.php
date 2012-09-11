@@ -61,7 +61,7 @@ class ElementHelper
         foreach ($tv as $property => $value)
         {
             // Get the category id
-            $value = ($property === 'category' ? $this->get_category_id($value) : 0);
+            $value = ($property === 'category' ? $this->get_category_id($value) : $value);
 
             if ($property !== 'name' && $property !== 'template_access')
             {
