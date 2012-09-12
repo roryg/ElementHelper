@@ -1,6 +1,7 @@
 Element Helper 1.1.1
 ====================================
 - Fixed bug causing TVs to lose their settings
+- Stopped Plugins from being auto deleted
 
 
 Element Helper 1.1.0
