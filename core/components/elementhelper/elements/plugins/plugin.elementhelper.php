@@ -90,16 +90,16 @@ foreach ($element_types as $element_type)
         $element_helper->create_element($element_type, $file, $file_type, $file_name);
     }
 
-    // Remove elements if they aren't in the elements folder anymore
-    if ($modx->getOption('elementhelper.auto_remove_elements') == true)
+    // Remove elements if they aren't in the elements folder anymore and they aren't plugins
+    if ($modx->getOption('elementhelper.auto_remove_elements') == true && $element_type['class_name'] !== 'Plugins')
     {
         foreach ($modx->getCollection($element_type['class_name']) as $element)
         {
             // Seriously wtf is with using 'templatename' instead of 'name' just for template elements?!
             $name_field = ($element_type['class_name'] === 'modTemplate' ? 'templatename' : 'name');
 
-            // Remove the element if it's not in the list of files and it's not the element_helper plugin
-            if (!in_array($element->get($name_field ), $file_names) && $element->get($name_field) != 'element_helper')
+            // Remove the element if it's not in the list of files
+            if (!in_array($element->get($name_field ), $file_names))
             {
                 $element->remove();
             }

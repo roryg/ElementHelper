@@ -1,6 +1,6 @@
 Element Helper 1.1.1
 ====================================
-- Fixed bug causing TVs to their settings
+- Fixed bug causing TVs to lose their settings
 
 
 Element Helper 1.1.0
