@@ -11,7 +11,7 @@ Usage:
 
 To start using ElementHelper create a folder named elements in the core directory of your MODX install and then create folders for chunks, snippets, templates and plugins within the elements folder (See the configuration section if you want to change where ElementHelper looks for your elements). Finally simply create your elements within those folders e.g. create a header.tpl file within the chunks folder or a get_menu.php file within your snippets folder. These elements will then automatically appear as elements in your MODX manager when you reload the manager or a frontend page.
 
-Note: It is recommend that you only use this plugin during development of your site as it refreshes your sites cache on every request. You can disable it by simply going to the Elements tab in the manager and selecting 'Plugin Disabled' on the 'element_helper' plugin.
+Note: It is recommend that you only use this plugin during development of your site as it runs every time a page is loaded. You can disable it by simply going to the Elements tab in the manager and selecting 'Plugin Disabled' on the 'element_helper' plugin.
 
 Template Variables are managed using a JSON file, if you're using the default settings create a template_variables.json file within your elements folder. To create a simple text template variable add the following to your template_variables.json file:
 
