@@ -91,7 +91,7 @@ foreach ($element_types as $element_type)
     }
 
     // Remove elements if they aren't in the elements folder anymore and they aren't plugins
-    if ($modx->getOption('elementhelper.auto_remove_elements') == true && $element_type['class_name'] !== 'Plugins')
+    if ($modx->getOption('elementhelper.auto_remove_elements') == true && $element_type['class_name'] !== 'modPlugin')
     {
         foreach ($modx->getCollection($element_type['class_name']) as $element)
         {
