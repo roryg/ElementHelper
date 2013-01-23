@@ -135,7 +135,7 @@ if (file_exists($tv_json_path))
         }
 
         // Remove template variables if they aren't in the TV json file
-        if ($modx->getOption('elementhelper.auto_remove_elements') == true)
+        if ($modx->getOption('elementhelper.auto_remove_elements', null, true) == true)
         {
             foreach ($modx->getCollection('modTemplateVar') as $template_var)
             {
@@ -149,4 +149,6 @@ if (file_exists($tv_json_path))
 }
 
 // Refresh the cache
-$modx->cacheManager->refresh();
+$modx->cacheManager->refresh(array(
+    'resource' => array()
+));
