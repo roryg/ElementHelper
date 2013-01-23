@@ -58,6 +58,10 @@ class ElementHelper
             $element->set('name', $tv->name);
         }
 
+        // Set to no category by default in case it gets
+        // set and then removed from template_variables.json
+        $element->set('category', 0);
+
         foreach ($tv as $property => $value)
         {
             // Get the category id
