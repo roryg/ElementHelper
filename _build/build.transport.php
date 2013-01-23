@@ -5,7 +5,7 @@ $tstart = $tstart[1] + $tstart[0];
 
 set_time_limit(0);
 
-define('PKG_NAME', 'Element Helper');
+define('PKG_NAME', 'ElementHelper');
 define('PKG_NAME_LOWER', 'elementhelper');
 define('PKG_VERSION', '1.1.1');
 

@@ -1,4 +1,5 @@
 <?php
+
 $default_element_helper_core_path = $modx->getOption('core_path') . 'components/elementhelper/';
 $element_helper_core_path = $modx->getOption('elementhelper.core_path', null, $default_element_helper_core_path);
 
@@ -7,22 +8,22 @@ $element_helper = $modx->getService('elementhelper', 'ElementHelper', $element_h
 $element_types = array(
     'templates' => array(
         'class_name' => 'modTemplate',
-        'path' => $modx->getOption('elementhelper.template_path')
+        'path' => $modx->getOption('elementhelper.template_path', null, 'core/elements/templates/')
     ),
     
     'chunks' => array(
         'class_name' => 'modChunk',
-        'path' => $modx->getOption('elementhelper.chunk_path')
+        'path' => $modx->getOption('elementhelper.chunk_path', null, 'core/elements/chunks/')
     ),
 
     'snippets' => array(
         'class_name' => 'modSnippet',
-        'path' => $modx->getOption('elementhelper.snippet_path')
+        'path' => $modx->getOption('elementhelper.snippet_path', null, 'core/elements/snippets/')
     ),
 
     'plugins' => array(
         'class_name' => 'modPlugin',
-        'path' => $modx->getOption('elementhelper.plugin_path')
+        'path' => $modx->getOption('elementhelper.plugin_path', null, 'core/elements/plugins/')
     )
 );
 
@@ -142,3 +143,6 @@ if (file_exists($tv_json_path))
         }
     }
 }
+
+// Refresh the cache
+$modx->cacheManager->refresh();
