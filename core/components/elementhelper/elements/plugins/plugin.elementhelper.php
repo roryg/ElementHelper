@@ -109,7 +109,7 @@ foreach ($element_types as $element_type)
 }
 
 
-$tv_json_path = MODX_BASE_PATH . $modx->getOption('elementhelper.tv_json_path');
+$tv_json_path = MODX_BASE_PATH . $modx->getOption('elementhelper.tv_json_path', null, 'core/elements/template_variables.json');
 
 // Get the template variables
 if (file_exists($tv_json_path))
@@ -118,27 +118,31 @@ if (file_exists($tv_json_path))
     $tvs = json_decode($tv_json);
     $tv_names = array();
 
-    // Create all the template variables
-    foreach ($tvs as $tv)
+    // Check if there are some TVs to loop through
+    if ($tvs !== null)
     {
-        $tv_names[] = $tv->name;
-
-        if (isset($tv->category))
+        // Create all the template variables
+        foreach ($tvs as $tv)
         {
-            $element_helper->create_category($tv->category, 0);
+            $tv_names[] = $tv->name;
+
+            if (isset($tv->category))
+            {
+                $element_helper->create_category($tv->category, 0);
+            }
+
+            $element_helper->create_tv($tv);
         }
 
-        $element_helper->create_tv($tv);
-    }
-
-    // Remove template variables if they aren't in the TV json file
-    if ($modx->getOption('elementhelper.auto_remove_elements') == true)
-    {
-        foreach ($modx->getCollection('modTemplateVar') as $template_var)
+        // Remove template variables if they aren't in the TV json file
+        if ($modx->getOption('elementhelper.auto_remove_elements') == true)
         {
-            if (!in_array($template_var->get('name'), $tv_names))
+            foreach ($modx->getCollection('modTemplateVar') as $template_var)
             {
-                $template_var->remove();
+                if (!in_array($template_var->get('name'), $tv_names))
+                {
+                    $template_var->remove();
+                }
             }
         }
     }
