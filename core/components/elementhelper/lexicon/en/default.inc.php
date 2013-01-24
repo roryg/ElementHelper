@@ -20,3 +20,6 @@ $_lang['setting_elementhelper.tv_access_control_desc'] = 'Allow elementhelper to
 
 $_lang['setting_elementhelper.auto_remove_elements'] = 'Automatically Remove Elements';
 $_lang['setting_elementhelper.auto_remove_elements_desc'] = 'Allow elementhelper to remove elements if you delete their source files (this will also remove TVs when you remove them from the TV JSON file).';
+
+$_lang['setting_elementhelper.element_history'] = 'Element History';
+$_lang['setting_elementhelper.element_history'] = "A list of elements created with ElementHelper. You shouldn't ever need to edit this.";

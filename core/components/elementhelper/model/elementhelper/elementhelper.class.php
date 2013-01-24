@@ -3,10 +3,12 @@
 class ElementHelper
 {
     private $modx;
+    public $element_history;
 
     function __construct(modX $modx)
     {
         $this->modx = $modx;
+        $this->history = array();
     }
 
     public function create_element($element_type, $file_path, $file_type, $name)
@@ -44,7 +46,10 @@ class ElementHelper
 
         $element->setContent($content);
 
-        $element->save();
+        if ($element->save())
+        {
+            $this->history[$element_type['class_name']][] = $name;
+        }
     }
 
     public function create_tv($tv)
@@ -73,7 +78,10 @@ class ElementHelper
             }
         }
 
-        $element->save();
+        if ($element->save())
+        {
+            $this->history['modTemplateVar'][] = $tv->name;
+        }
 
         if ($this->modx->getOption('elementhelper.tv_access_control') == True)
         {
@@ -163,6 +171,7 @@ class ElementHelper
 
     private function _get_description($file_contents)
     {
+        $description = '';
         $comments = $this->_get_comments($file_contents);
 
         foreach ($comments as $comment)

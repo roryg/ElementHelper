@@ -1,5 +1,4 @@
 <?php
-
 $default_element_helper_core_path = $modx->getOption('core_path') . 'components/elementhelper/';
 $element_helper_core_path = $modx->getOption('elementhelper.core_path', null, $default_element_helper_core_path);
 
@@ -26,6 +25,8 @@ $element_types = array(
         'path' => $modx->getOption('elementhelper.plugin_path', null, 'core/elements/plugins/')
     )
 );
+
+$element_history = unserialize($modx->getOption('elementhelper.element_history'));
 
 // Get the files from the directory and all sub directories
 function get_files($directory_path)
@@ -91,18 +92,26 @@ foreach ($element_types as $element_type)
         $element_helper->create_element($element_type, $file, $file_type, $file_name);
     }
 
-    // Remove elements if they aren't in the elements folder anymore and they aren't plugins
-    if ($modx->getOption('elementhelper.auto_remove_elements') == true && $element_type['class_name'] !== 'modPlugin')
+    // Remove elements that are in the element history but no longer exist in the elements dir
+    if ($modx->getOption('elementhelper.auto_remove_elements', null, true))
     {
-        foreach ($modx->getCollection($element_type['class_name']) as $element)
-        {
-            // Seriously wtf is with using 'templatename' instead of 'name' just for template elements?!
-            $name_field = ($element_type['class_name'] === 'modTemplate' ? 'templatename' : 'name');
+        $element_type_name = $element_type['class_name'];
 
-            // Remove the element if it's not in the list of files
-            if (!in_array($element->get($name_field ), $file_names))
+        // Check if a history for this element type exists
+        if (isset($element_history[$element_type_name]))
+        {
+            // Loop through the element history for this element type
+            foreach ($element_history[$element_type_name] as $old_element_name)
             {
-                $element->remove();
+                // Remove the element if it's not in the list of files
+                if ( ! in_array($old_element_name, $file_names))
+                {
+                    $name_field = ($element_type_name === 'modTemplate' ? 'templatename' : 'name');
+
+                    $element = $modx->getObject($element_type_name, array($name_field => $old_element_name));
+
+                    $element->remove();
+                }
             }
         }
     }
@@ -134,19 +143,32 @@ if (file_exists($tv_json_path))
             $element_helper->create_tv($tv);
         }
 
-        // Remove template variables if they aren't in the TV json file
-        if ($modx->getOption('elementhelper.auto_remove_elements', null, true) == true)
+        // Remove elements that are in the element history but no longer exist in the TV JSON file
+        if ($modx->getOption('elementhelper.auto_remove_elements', null, true))
         {
-            foreach ($modx->getCollection('modTemplateVar') as $template_var)
+            // Check if a history for this element type exists
+            if (isset($element_history['modTemplateVar']))
             {
-                if (!in_array($template_var->get('name'), $tv_names))
+                // Loop through the element history for this element type
+                foreach ($element_history['modTemplateVar'] as $old_element_name)
                 {
-                    $template_var->remove();
+                    // Remove the element if it's not in the list of files
+                    if ( ! in_array($old_element_name, $tv_names))
+                    {
+                        $element = $modx->getObject('modTemplateVar', array('name' => $old_element_name));
+
+                        $element->remove();
+                    }
                 }
             }
         }
     }
 }
+
+// Save the list of created elements
+$element_history_setting = $modx->getObject('modSystemSetting', 'elementhelper.element_history');
+$element_history_setting->set('value', serialize($element_helper->history));
+$element_history_setting->save();
 
 // Refresh the cache
 $modx->cacheManager->refresh(array(

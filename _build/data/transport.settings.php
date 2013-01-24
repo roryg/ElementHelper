@@ -65,4 +65,13 @@ $settings['elementhelper.auto_remove_elements']->fromArray(array(
     'area' => 'default'
 ), '', true, true);
 
+$settings['elementhelper.element_history'] = $modx->newObject('modSystemSetting');
+$settings['elementhelper.element_history']->fromArray(array(
+    'key' => 'elementhelper.element_history',
+    'value' => '',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'default'
+), '', true, true);
+
 return $settings;
