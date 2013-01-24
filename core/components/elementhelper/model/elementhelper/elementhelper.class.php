@@ -30,7 +30,7 @@ class ElementHelper
             // I have no elegant solution to this
         }
 
-        // exside: This throws error "modSnippet: Attempt to set NOT NULL field description to NULL" and multiple times per reload
+        // This throws error "modSnippet: Attempt to set NOT NULL field description to NULL" and multiple times per reload
         // Set the description for snippets
         /*if ($element_type['class_name'] === 'modSnippet')
         {
@@ -42,9 +42,13 @@ class ElementHelper
 
         $element->set('category', $this->get_category_id(end($category_names)));
         $element->set('static', 1);
-        //$element->set('source', 1); // Makes big time problems if Mediasource with ID 1 isn't set to the base path
-        $element->set('source', $this->modx->getOption('elementhelper.source')); // created new system setting "elementhelper.source" with description "Media Source of static elements"
-        $element->set('static_file', str_replace(MODX_BASE_PATH, '', $file_path));
+        //$element->set('source', 1); // makes problems if Mediasource with ID 1 isn't set to the base path
+        $element->set('source', $this->modx->getOption('elementhelper.source')); // created new system setting "elementhelper.source"
+        // get the base path of the defined media source to determine the right path to set for the static file
+        $source = $this->modx->getObject('sources.modMediaSource', array('id' => $element->get('source')));
+        $source->initialize(); // unfortunately necessary, media source getters will not work without this
+        //$element->set('static_file', str_replace(MODX_BASE_PATH, '', $file_path));
+        $element->set('static_file', str_replace($source->getBasePath(), '', $file_path));
 
         $element->setContent($content);
 
