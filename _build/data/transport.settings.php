@@ -65,4 +65,13 @@ $settings['elementhelper.auto_remove_elements']->fromArray(array(
     'area' => 'default'
 ), '', true, true);
 
+$settings['elementhelper.source'] = $modx->newObject('modSystemSetting');
+$settings['elementhelper.source']->fromArray(array(
+    'key' => 'elementhelper.source',
+    'value' => 1,
+    'xtype' => 'modx-combo-source',
+    'namespace' => 'elementhelper',
+    'area' => 'default'
+), '', true, true);
+
 return $settings;

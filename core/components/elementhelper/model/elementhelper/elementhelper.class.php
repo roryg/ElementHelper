@@ -25,21 +25,25 @@ class ElementHelper
             $element = $this->modx->newObject($element_type['class_name']);
 
             $element->set($name_field, $name);
-            $element->set('description', '');
+            $element->set('description', 'Imported by Element Helper plugin'); // to avoid problem below just set a default description
+            // it would be actually nice if we had the possibility to somehow specify a description for each item, but at the moment
+            // I have no elegant solution to this
         }
 
+        // exside: This throws error "modSnippet: Attempt to set NOT NULL field description to NULL" and multiple times per reload
         // Set the description for snippets
-        if ($element_type['class_name'] === 'modSnippet')
+        /*if ($element_type['class_name'] === 'modSnippet')
         {
             $element->set('description', $this->_get_description($content));
-        }
+        }*/
 
         $category_path = dirname(str_replace(MODX_BASE_PATH . $element_type['path'], '', $file_path));
         $category_names = explode('/', $category_path);
 
         $element->set('category', $this->get_category_id(end($category_names)));
         $element->set('static', 1);
-        $element->set('source', 1);
+        //$element->set('source', 1); // Makes big time problems if Mediasource with ID 1 isn't set to the base path
+        $element->set('source', $this->modx->getOption('elementhelper.source')); // created new system setting "elementhelper.source" with description "Media Source of static elements"
         $element->set('static_file', str_replace(MODX_BASE_PATH, '', $file_path));
 
         $element->setContent($content);
@@ -71,7 +75,7 @@ class ElementHelper
 
         $element->save();
 
-        if ($this->modx->getOption('elementhelper.tv_access_control') == True)
+        if ($this->modx->getOption('elementhelper.tv_access_control') == true)
         {
             $templates = $this->modx->getCollection('modTemplate');
 

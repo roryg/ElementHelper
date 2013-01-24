@@ -20,3 +20,6 @@ $_lang['setting_elementhelper.tv_access_control_desc'] = 'Allow elementhelper to
 
 $_lang['setting_elementhelper.auto_remove_elements'] = 'Automatically Remove Elements';
 $_lang['setting_elementhelper.auto_remove_elements_desc'] = 'Allow elementhelper to remove elements if you delete their source files (this will also remove TVs when you remove them from the TV JSON file).';
+
+$_lang['setting_elementhelper.source'] = 'Elements media source';
+$_lang['setting_elementhelper.source'] = 'Defaults to media source with ID 1, change to according media source if another is used for static elements.';
