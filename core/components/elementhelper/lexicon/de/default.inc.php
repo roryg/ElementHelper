@@ -23,3 +23,6 @@ $_lang['setting_elementhelper.auto_remove_elements_desc'] = 'Element Helper erla
 
 $_lang['setting_elementhelper.source'] = 'Medienquelle für Elemente';
 $_lang['setting_elementhelper.source'] = 'Zeigt standardmässig auf die Medienquelle mit der ID 1, auf korrekte Medienquelle ändern, falls eine andere für statische Elemente verwendet wird.';
+
+$_lang['setting_elementhelper.descriptionkey'] = 'Description String';
+$_lang['setting_elementhelper.descriptionkey'] = 'String um Elementbeschreibung im ersten Kommentarblock eines Elements zu identifizieren. Standard ist @Description';

@@ -23,3 +23,6 @@ $_lang['setting_elementhelper.auto_remove_elements_desc'] = 'Allow elementhelper
 
 $_lang['setting_elementhelper.source'] = 'Elements media source';
 $_lang['setting_elementhelper.source'] = 'Defaults to media source with ID 1, change to according media source if another is used for static elements.';
+
+$_lang['setting_elementhelper.descriptionkey'] = 'Description key';
+$_lang['setting_elementhelper.descriptionkey'] = 'String to identify description information for elements inside the opening comment block, defaults to @Description.';
