@@ -25,24 +25,28 @@ class ElementHelper
         if (!isset($element))
         {
             $element = $this->modx->newObject($element_type['class_name']);
-
+            
             $element->set($name_field, $name);
-            $element->set('description', '');
-        }
-
-        // Set the description for snippets
-        if ($element_type['class_name'] === 'modSnippet')
-        {
-            $element->set('description', $this->_get_description($content));
         }
 
         $category_path = dirname(str_replace(MODX_BASE_PATH . $element_type['path'], '', $file_path));
         $category_names = explode('/', $category_path);
+        $description = $this->_get_description($content) != '' ? $this->_get_description($content) : 'Imported by Element Helper Plugin';
 
         $element->set('category', $this->get_category_id(end($category_names)));
+        $element->set('description', $description);
         $element->set('static', 1);
-        $element->set('source', 1);
-        $element->set('static_file', str_replace(MODX_BASE_PATH, '', $file_path));
+
+        // check content of system setting "elementhelper.source"
+        $element->set('source', $this->modx->getOption('elementhelper.source'));
+        
+        // get the base path of the defined media source to determine the right path to set for the static file
+        $source = $this->modx->getObject('sources.modMediaSource', array('id' => $element->get('source')));
+
+        // unfortunately necessary, getters will not work without this
+        $source->initialize();
+
+        $element->set('static_file', str_replace($source->getBasePath(), '', $file_path));
 
         $element->setContent($content);
 
@@ -83,7 +87,7 @@ class ElementHelper
             $this->history['modTemplateVar'][] = $tv->name;
         }
 
-        if ($this->modx->getOption('elementhelper.tv_access_control') == True)
+        if ($this->modx->getOption('elementhelper.tv_access_control') == true)
         {
             $templates = $this->modx->getCollection('modTemplate');
 
@@ -180,7 +184,8 @@ class ElementHelper
             
             foreach($comment_lines as $comment_line)
             {
-                if (preg_match('/@Description (.*)/', $comment_line, $match))
+                // get string to search for description from system setting
+                if (preg_match('/' . $this->modx->getOption('elementhelper.descriptionkey') . ' (.*)/', $comment_line, $match))
                 {
                     $description = $match[1];
                 }

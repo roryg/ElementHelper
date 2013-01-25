@@ -74,4 +74,22 @@ $settings['elementhelper.element_history']->fromArray(array(
     'area' => 'default'
 ), '', true, true);
 
+$settings['elementhelper.source'] = $modx->newObject('modSystemSetting');
+$settings['elementhelper.source']->fromArray(array(
+    'key' => 'elementhelper.source',
+    'value' => 1,
+    'xtype' => 'modx-combo-source',
+    'namespace' => 'elementhelper',
+    'area' => 'default'
+), '', true, true);
+
+$settings['elementhelper.descriptionkey'] = $modx->newObject('modSystemSetting');
+$settings['elementhelper.descriptionkey']->fromArray(array(
+    'key' => 'elementhelper.descriptionkey',
+    'value' => '@Description',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'default'
+), '', true, true);
+
 return $settings;
