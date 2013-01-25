@@ -31,7 +31,7 @@ class ElementHelper
 
         $category_path = dirname(str_replace(MODX_BASE_PATH . $element_type['path'], '', $file_path));
         $category_names = explode('/', $category_path);
-        $description = $this->_get_description($content) != '' ? $this->_get_description($content) : 'Imported by Element Helper Plugin';
+        $description = $this->_get_description($content);
 
         $element->set('category', $this->get_category_id(end($category_names)));
         $element->set('description', $description);
@@ -175,7 +175,7 @@ class ElementHelper
 
     private function _get_description($file_contents)
     {
-        $description = '';
+        $description = $this->modx->getOption('elementhelper.default_description');
         $comments = $this->_get_comments($file_contents);
 
         foreach ($comments as $comment)

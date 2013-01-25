@@ -92,4 +92,13 @@ $settings['elementhelper.descriptionkey']->fromArray(array(
     'area' => 'default'
 ), '', true, true);
 
+$settings['elementhelper.default_description'] = $modx->newObject('modSystemSetting');
+$settings['elementhelper.default_description']->fromArray(array(
+    'key' => 'elementhelper.default_description',
+    'value' => '',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'default'
+), '', true, true);
+
 return $settings;

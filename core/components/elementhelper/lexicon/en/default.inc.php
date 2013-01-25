@@ -29,3 +29,6 @@ $_lang['setting_elementhelper.source'] = 'Defaults to media source with ID 1, ch
 
 $_lang['setting_elementhelper.descriptionkey'] = 'Description key';
 $_lang['setting_elementhelper.descriptionkey'] = 'String to identify description information for elements inside the opening comment block, defaults to @Description.';
+
+$_lang['setting_elementhelper.descriptionkey'] = 'Default Description';
+$_lang['setting_elementhelper.descriptionkey'] = 'Set a default description for elements created with files';
