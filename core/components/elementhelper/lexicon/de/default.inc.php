@@ -22,7 +22,7 @@ $_lang['setting_elementhelper.auto_remove_elements'] = 'Elemente automatisch ent
 $_lang['setting_elementhelper.auto_remove_elements_desc'] = 'Element Helper erlauben, Elemente aus dem Manager zu entfernen, sobald die statischen Quelldateien gelöscht werden (das Aktivieren dieser Option wird auch Template Variablen entfernen, die nicht (mehr) im JSON File aufgeführt sind).';
 
 $_lang['setting_elementhelper.source'] = 'Medienquelle für Elemente';
-$_lang['setting_elementhelper.source'] = 'Zeigt standardmässig auf die Medienquelle mit der ID 1, auf korrekte Medienquelle ändern, falls eine andere für statische Elemente verwendet wird.';
+$_lang['setting_elementhelper.source.desc'] = 'Zeigt standardmässig auf die Medienquelle mit der ID 1, auf korrekte Medienquelle ändern, falls eine andere für statische Elemente verwendet wird.';
 
 $_lang['setting_elementhelper.descriptionkey'] = 'Description String';
-$_lang['setting_elementhelper.descriptionkey'] = 'String um Elementbeschreibung im ersten Kommentarblock eines Elements zu identifizieren. Standard ist @Description';
+$_lang['setting_elementhelper.descriptionkey.desc'] = 'String um Elementbeschreibung im ersten Kommentarblock eines Elements zu identifizieren. Standard ist @Description';

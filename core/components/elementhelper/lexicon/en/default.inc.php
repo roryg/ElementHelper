@@ -22,13 +22,13 @@ $_lang['setting_elementhelper.auto_remove_elements'] = 'Automatically Remove Ele
 $_lang['setting_elementhelper.auto_remove_elements_desc'] = 'Allow elementhelper to remove elements if you delete their source files (this will also remove TVs when you remove them from the TV JSON file).';
 
 $_lang['setting_elementhelper.element_history'] = 'Element History';
-$_lang['setting_elementhelper.element_history'] = "A list of elements created with ElementHelper. You shouldn't ever need to edit this.";
+$_lang['setting_elementhelper.element_history_desc'] = "A list of elements created with ElementHelper. You shouldn't ever need to edit this.";
 
 $_lang['setting_elementhelper.source'] = 'Elements media source';
-$_lang['setting_elementhelper.source'] = 'Defaults to media source with ID 1, change to according media source if another is used for static elements.';
+$_lang['setting_elementhelper.source_desc'] = 'Defaults to media source with ID 1, change to according media source if another is used for static elements.';
 
 $_lang['setting_elementhelper.descriptionkey'] = 'Description key';
-$_lang['setting_elementhelper.descriptionkey'] = 'String to identify description information for elements inside the opening comment block, defaults to @Description.';
+$_lang['setting_elementhelper.descriptionkey_desc'] = 'String to identify description information for elements inside the opening comment block, defaults to @Description.';
 
-$_lang['setting_elementhelper.descriptionkey'] = 'Default Description';
-$_lang['setting_elementhelper.descriptionkey'] = 'Set a default description for elements created with files';
+$_lang['setting_elementhelper.default_description'] = 'Default Description';
+$_lang['setting_elementhelper.default_description_desc'] = 'Set a default description for elements created with files';

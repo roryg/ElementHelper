@@ -8,7 +8,7 @@ $settings['elementhelper.chunk_path']->fromArray(array(
     'value' => 'core/elements/chunks/',
     'xtype' => 'textfield',
     'namespace' => 'elementhelper',
-    'area' => 'default'
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.template_path'] = $modx->newObject('modSystemSetting');
@@ -17,7 +17,7 @@ $settings['elementhelper.template_path']->fromArray(array(
     'value' => 'core/elements/templates/',
     'xtype' => 'textfield',
     'namespace' => 'elementhelper',
-    'area' => 'default'
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.plugin_path'] = $modx->newObject('modSystemSetting');
@@ -26,7 +26,7 @@ $settings['elementhelper.plugin_path']->fromArray(array(
     'value' => 'core/elements/plugins/',
     'xtype' => 'textfield',
     'namespace' => 'elementhelper',
-    'area' => 'default'
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.snippet_path'] = $modx->newObject('modSystemSetting');
@@ -35,7 +35,7 @@ $settings['elementhelper.snippet_path']->fromArray(array(
     'value' => 'core/elements/snippets/',
     'xtype' => 'textfield',
     'namespace' => 'elementhelper',
-    'area' => 'default'
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.tv_json_path'] = $modx->newObject('modSystemSetting');
@@ -44,7 +44,7 @@ $settings['elementhelper.tv_json_path']->fromArray(array(
     'value' => 'core/elements/template_variables.json',
     'xtype' => 'textfield',
     'namespace' => 'elementhelper',
-    'area' => 'default'
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.tv_access_control'] = $modx->newObject('modSystemSetting');
