@@ -1,3 +1,10 @@
+Element Helper 1.2.0
+====================================
+- Fixed various errors and bugs
+- Made cache clearing more specific to avoid clearing unnecessary parts of the cache
+- Added element history so only elements created with ElementHelper will be deleted when their files have been removed
+
+
 Element Helper 1.1.1
 ====================================
 - Fixed bug causing TVs to lose their settings
