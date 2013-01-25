@@ -1,3 +1,12 @@
+Element Helper 1.2.1
+====================================
+- (exside) Fixed problems with media source 1 not pointing to base path
+- (exside) Added system setting "elementhelper.source" to specify which media source should be used for the static files
+- (exside) Added german translation
+- (exside) Added setting to make the description key customizable
+- Added setting for default element descriptions
+
+
 Element Helper 1.2.0
 ====================================
 - Fixed various errors and bugs
