@@ -1,3 +1,8 @@
+Element Helper 1.2.2
+====================================
+- Fixed error where TVs were trying to assign templates that didn't exist.
+
+
 Element Helper 1.2.1
 ====================================
 - (exside) Fixed problems with media source 1 not pointing to base path

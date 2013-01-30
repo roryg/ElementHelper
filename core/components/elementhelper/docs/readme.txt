@@ -1,7 +1,7 @@
 --------------------
 Extra: Element Helper
 --------------------
-Version: 1.2.1
+Version: 1.2.2
  
 Element Helper is a MODx Revolution plugin for automatically creating elements from static files without the MODx manager.
 
