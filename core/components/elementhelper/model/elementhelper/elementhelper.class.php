@@ -113,16 +113,19 @@ class ElementHelper
         $tv = $this->modx->getObject('modTemplateVar', array('name' => $tv_name));
         $template = $this->modx->getObject('modTemplate', array('templatename' => $template_name));
 
-        $tv_template = $this->modx->getObject('modTemplateVarTemplate', array('tmplvarid' => $tv->get('id'), 'templateid' => $template->get('id')));
-
-        if (!isset($tv_template))
+        if ($template !== null)
         {
-            $tv_template = $this->modx->newObject('modTemplateVarTemplate');
+            $tv_template = $this->modx->getObject('modTemplateVarTemplate', array('tmplvarid' => $tv->get('id'), 'templateid' => $template->get('id')));
 
-            $tv_template->set('templateid', $template->get('id'));
-            $tv_template->set('tmplvarid', $tv->get('id'));
+            if (!isset($tv_template))
+            {
+                $tv_template = $this->modx->newObject('modTemplateVarTemplate');
 
-            $tv_template->save();
+                $tv_template->set('templateid', $template->get('id'));
+                $tv_template->set('tmplvarid', $tv->get('id'));
+
+                $tv_template->save();
+            }
         }
     }
 
