@@ -101,4 +101,13 @@ $settings['elementhelper.default_description']->fromArray(array(
     'area' => 'default'
 ), '', true, true);
 
+$settings['elementhelper.usergroups'] = $modx->newObject('modSystemSetting');
+$settings['elementhelper.usergroups']->fromArray(array(
+    'key' => 'elementhelper.usergroups',
+    'value' => 'Administrator',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'default'
+), '', true, true);
+
 return $settings;

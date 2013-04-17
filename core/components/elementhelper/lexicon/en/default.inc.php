@@ -31,4 +31,7 @@ $_lang['setting_elementhelper.descriptionkey'] = 'Description key';
 $_lang['setting_elementhelper.descriptionkey_desc'] = 'String to identify description information for elements inside the opening comment block, defaults to @Description.';
 
 $_lang['setting_elementhelper.default_description'] = 'Default Description';
-$_lang['setting_elementhelper.default_description_desc'] = 'Set a default description for elements created with files';
+$_lang['setting_elementhelper.default_description_desc'] = 'Set a default description for elements created with files.';
+
+$_lang['setting_elementhelper.usergroups'] = 'Usergroups';
+$_lang['setting_elementhelper.usergroups_desc'] = 'Comma-delimited list of usergroups where ElementHelper should be active, usually only the group for Administrators/Devs that can change files in the target directories.';

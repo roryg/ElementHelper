@@ -1,3 +1,9 @@
+Element Helper 1.3.0
+====================================
+- (exside) Added system setting elementhelper.usergroups to specify usergroups where ElementHelper should run, so page/manager are not slowed down by the plugin for users that cannot edit files in the target folders
+- (exside) Added native modx caching to the plugin, so it only runs when a file in the target directories has changed, makes the plugin less obtrusive (by not checking all the files on every request) and makes it even possible to let it active on production sites (together with the usergroups feature)
+- (exside) Updated translations (german/english)
+
 Element Helper 1.2.2
 ====================================
 - Fixed error where TVs were trying to assign templates that didn't exist.
