@@ -1,17 +1,25 @@
 <?php
 $packagename = 'elementhelper';
 
-if ($debug = isset($debug) ? $debug : false) { $modx->setLogLevel(modX::LOG_LEVEL_INFO); }
-if ($debug) { $timestart = $modx->getMicroTime(); }
+// Turn debug messages on/off
+$debug = false;
 
-// set up native modx caching
-$cacheid        = isset($settings['cacheid']) ? $settings['cacheid'] : $packagename; // something unique, acts as identifier
-$cachetime      = isset($settings['cachetime']) ? $settings['cachetime'] : 0; // cachetime in seconds
-$cacheoptions   = array(
-    xPDO::OPT_CACHE_KEY => $packagename // specify folder/partition inside the modx cache folder where cache files get saved in
+if ($debug)
+{
+    $modx->setLogLevel(modX::LOG_LEVEL_INFO);
+    $timestart = $modx->getMicroTime();
+}
+
+// Set up native modx caching
+$cacheid = isset($settings['cacheid']) ? $settings['cacheid'] : $packagename;
+$cachetime = isset($settings['cachetime']) ? $settings['cachetime'] : 0;
+$cacheoptions = array(
+    // Specify folder/partition inside the modx cache folder where cache files get saved in
+    xPDO::OPT_CACHE_KEY => $packagename
 );
 
-// getting the usergroups where ElementHelper should be active (usually only Administrators/Devs that can change files in the target directories)
+// Get the usergroups where ElementHelper should be active
+// (usually only Administrators/Devs that can change files in the target directories)
 $usergroups = explode(',', $modx->getOption('elementhelper.usergroups'));
 
 if ($modx->user->isMember($usergroups))
@@ -82,13 +90,18 @@ if ($modx->user->isMember($usergroups))
     foreach ($element_types as $element_type)
     {
         $file_list = get_files(MODX_BASE_PATH . $element_type['path'], $modx);
-        $modified = array(); // holds the changed files
 
-        // go trough all files in $file_list and 
+        // Stores the time the file was modified at
+        $modified = array();
+
+        // Go through all files in $file_list and 
         foreach ($file_list as $file) {
-            // should prevent problems when files have the same timestamp and would have the same array kay...
-            // just adding a small random number of seconds to the filetime
-            if (array_key_exists(filemtime($file), $file_list ))
+            // should prevent problems when files have the same timestamp and would have the 
+            // same array key... just adding a small random number of seconds to the filetime
+            // 
+            // NOTE: (Is there a reason for the timestamp beign the array key? Perhaps making 
+            // the filename the array key would be better?)
+            if (array_key_exists(filemtime($file), $file_list))
             {
                 if (touch($file, filemtime($file) + mt_rand(1, 100)))
                 {
@@ -101,16 +114,22 @@ if ($modx->user->isMember($usergroups))
             }
         }
 
-        $file_list = array_combine($modified, $file_list);
+        // If we have the times the files were modified at then combine them with the file list
+        if ( ! empty($modified))
+        {
+            $file_list = array_combine($modified, $file_list);
+        }
 
-        krsort($file_list); // sort the $files array backwards with key = timestamp of last modified
+        // Sort the $files array backwards with key = timestamp of last modified
+        krsort($file_list);
 
-        $last_mod = key(array_slice($file_list, 0, 1, true)); // cut the array at first item = most recentyl modified file
+        // Cut the array at first item = most recently modified file
+        $last_mod = key(array_slice($file_list, 0, 1, true));
 
-        // check if cachefile exists / should be renewed / or cached if not there already
+        // Check if cachefile exists / should be renewed / or cached if not there already
         if (is_null($modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions)) || $modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions) !== $last_mod)
         {
-            // cache the newest filetime for that element class
+            // Cache the newest filetime for that element class
             $modx->cacheManager->set($cacheid . '.' . $element_type['class_name'], $last_mod, $cachetime, $cacheoptions);
 
             $file_names = array();
@@ -163,6 +182,7 @@ if ($modx->user->isMember($usergroups))
                     }
                 }
             }
+
             // Save the list of created elements
             $element_history_setting = $modx->getObject('modSystemSetting', 'elementhelper.element_history');
             $element_history_setting->set('value', serialize($element_helper->history));
@@ -173,15 +193,20 @@ if ($modx->user->isMember($usergroups))
                 'resource' => array()
             ));
 
-            if ($debug) { $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] ' . $element_type['class_name'] . ': updated and cache refreshed!'); }
+            if ($debug)
+            {
+                $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] ' . $element_type['class_name'] . ': updated and cache refreshed!');
+            }
         }
         else
         {
-            if ($debug) { $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] ' . $element_type['class_name'] . ': nothing changed! Last mod: ' . strftime('%d.%m.%Y %H:%M:%S', $modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions))); }
+            if ($debug)
+            {
+                $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] ' . $element_type['class_name'] . ': nothing changed! Last mod: ' . strftime('%d.%m.%Y %H:%M:%S', $modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions)));
+            }
         }
 
     }
-
 
     $tv_json_path = MODX_BASE_PATH . $modx->getOption('elementhelper.tv_json_path', null, 'core/elements/template_variables.json');
 
@@ -193,10 +218,10 @@ if ($modx->user->isMember($usergroups))
         $tv_names = array();
         $last_mod = filemtime($tv_json_path);
 
-         // check if cachefile exists / should be renewed / or cached if not there already
+        // Check if cachefile exists / should be renewed / or cached if not there already
         if (is_null($modx->cacheManager->get($cacheid . '.modTemplateVar', $cacheoptions)) || $modx->cacheManager->get($cacheid . '.modTemplateVar', $cacheoptions) !== $last_mod)
         {
-            // cache last mod time
+            // Cache last mod time
             $modx->cacheManager->set($cacheid . '.modTemplateVar', $last_mod, $cachetime, $cacheoptions);
 
             // Check if there are some TVs to loop through
@@ -245,11 +270,18 @@ if ($modx->user->isMember($usergroups))
             $modx->cacheManager->refresh(array(
                 'resource' => array()
             ));
-            if ($debug) { $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] modTemplateVar: updated and cache refreshed!'); }
+
+            if ($debug)
+            {
+                $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] modTemplateVar: updated and cache refreshed!');
+            }
         }
         else
         {
-            if ($debug) { $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] modTemplateVar: nothing changed! Last mod: ' . strftime('%d.%m.%Y %H:%M:%S', $modx->cacheManager->get($cacheid . '.modTemplateVar', $cacheoptions))); }
+            if ($debug)
+            {
+                $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] modTemplateVar: nothing changed! Last mod: ' . strftime('%d.%m.%Y %H:%M:%S', $modx->cacheManager->get($cacheid . '.modTemplateVar', $cacheoptions)));
+            }
         }
     }
 
@@ -257,7 +289,8 @@ if ($modx->user->isMember($usergroups))
     { 
         $timeend = $modx->getMicroTime();
         $modx->log(modX::LOG_LEVEL_INFO, '{modPlugin}: ' . $packagename . ' executed in ' . sprintf('%2.4f s', $timeend - $timestart));
-        // set logLevel back to ERROR, preventing a lot of crap getting logged
+        
+        // Set logLevel back to ERROR, preventing a lot of crap getting logged
         $modx->setLogLevel(modX::LOG_LEVEL_ERROR);
     }
 }
