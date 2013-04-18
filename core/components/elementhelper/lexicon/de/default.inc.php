@@ -28,7 +28,7 @@ $_lang['setting_elementhelper.source'] = 'Medienquelle für Elemente';
 $_lang['setting_elementhelper.source_desc'] = 'Zeigt standardmässig auf die Medienquelle mit der ID 1, auf korrekte Medienquelle ändern, falls eine andere für statische Elemente verwendet wird.';
 
 $_lang['setting_elementhelper.descriptionkey'] = 'Description Identifikations-String';
-$_lang['setting_elementhelper.descriptionkey.desc'] = 'String um Elementbeschreibung im ersten Kommentarblock eines Elements zu identifizieren. Standard ist @Description';
+$_lang['setting_elementhelper.descriptionkey_desc'] = 'String um Elementbeschreibung im ersten Kommentarblock eines Elements zu identifizieren. Standard ist @Description';
 
 $_lang['setting_elementhelper.default_description'] = 'Standardbeschreibung';
 $_lang['setting_elementhelper.default_description_desc'] = 'String der standardmässig als Elementbeschreibung eingefügt wird, wenn im Code keine definiert ist.';
