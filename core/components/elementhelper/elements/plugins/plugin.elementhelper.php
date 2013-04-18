@@ -2,7 +2,7 @@
 $packagename = 'elementhelper';
 
 // Turn debug messages on/off
-$debug = true;
+$debug = false;
 
 if ($debug)
 {
