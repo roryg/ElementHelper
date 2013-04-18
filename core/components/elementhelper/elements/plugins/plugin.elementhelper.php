@@ -116,98 +116,97 @@ if ($modx->user->isMember($usergroups))
             }
         }
 
-        // If we have the times the files were modified at then combine them with the file list
-        if ( ! empty($modified))
+        if ( ! empty($file_list))
         {
+            // Set the modified file times as the keys for the files
             $file_list = array_combine($modified, $file_list);
-        }
 
-        // Sort the $files array backwards with key = timestamp of last modified
-        krsort($file_list);
+            // Sort the $files array backwards with key = timestamp of last modified
+            krsort($file_list);
 
-        // Cut the array at first item = most recently modified file
-        $last_mod = key(array_slice($file_list, 0, 1, true));
+            // Cut the array at first item = most recently modified file
+            $last_mod = key(array_slice($file_list, 0, 1, true));
 
-        // Check if cachefile exists / should be renewed / or cached if not there already
-        if (is_null($modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions)) || $modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions) !== $last_mod)
-        {
-            // Cache the newest filetime for that element class
-            $modx->cacheManager->set($cacheid . '.' . $element_type['class_name'], $last_mod, $cachetime, $cacheoptions);
-
-            $file_names = array();
-
-            foreach ($file_list as $file)
+            // Check if cachefile exists / should be renewed / or cached if not there already
+            if (is_null($modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions)) || $modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions) !== $last_mod)
             {
-                $file_type = explode('.', $file);
-                $file_type = '.' . end($file_type);
-                $file_name = basename($file, $file_type);
+                // Cache the newest filetime for that element class
+                $modx->cacheManager->set($cacheid . '.' . $element_type['class_name'], $last_mod, $cachetime, $cacheoptions);
 
-                $file_names[] = $file_name;
+                $file_names = array();
 
-                $category_path = dirname(str_replace(MODX_BASE_PATH . $element_type['path'], '', $file));
-                $category_names = explode('/', $category_path);
-
-                // If it's not the current directory
-                if ($category_path !== '.')
+                foreach ($file_list as $file)
                 {
-                    foreach ($category_names as $i => $category_name)
-                    {
-                        $parent_id = $i !== 0 ? $element_helper->get_category_id($category_names[$i - 1]) : 0;
+                    $file_type = explode('.', $file);
+                    $file_type = '.' . end($file_type);
+                    $file_name = basename($file, $file_type);
 
-                        $element_helper->create_category($category_name, $parent_id);
+                    $file_names[] = $file_name;
+
+                    $category_path = dirname(str_replace(MODX_BASE_PATH . $element_type['path'], '', $file));
+                    $category_names = explode('/', $category_path);
+
+                    // If it's not the current directory
+                    if ($category_path !== '.')
+                    {
+                        foreach ($category_names as $i => $category_name)
+                        {
+                            $parent_id = $i !== 0 ? $element_helper->get_category_id($category_names[$i - 1]) : 0;
+
+                            $element_helper->create_category($category_name, $parent_id);
+                        }
                     }
+
+                    $element_helper->create_element($element_type, $file, $file_type, $file_name);
                 }
 
-                $element_helper->create_element($element_type, $file, $file_type, $file_name);
-            }
-
-            // Remove elements that are in the element history but no longer exist in the elements dir
-            if ($modx->getOption('elementhelper.auto_remove_elements', null, true))
-            {
-                $element_type_name = $element_type['class_name'];
-
-                // Check if a history for this element type exists
-                if (isset($element_history[$element_type_name]))
+                // Remove elements that are in the element history but no longer exist in the elements dir
+                if ($modx->getOption('elementhelper.auto_remove_elements', null, true))
                 {
-                    // Loop through the element history for this element type
-                    foreach ($element_history[$element_type_name] as $old_element_name)
+                    $element_type_name = $element_type['class_name'];
+
+                    // Check if a history for this element type exists
+                    if (isset($element_history[$element_type_name]))
                     {
-                        // Remove the element if it's not in the list of files
-                        if (! in_array($old_element_name, $file_names))
+                        // Loop through the element history for this element type
+                        foreach ($element_history[$element_type_name] as $old_element_name)
                         {
-                            $name_field = ($element_type_name === 'modTemplate' ? 'templatename' : 'name');
+                            // Remove the element if it's not in the list of files
+                            if (! in_array($old_element_name, $file_names))
+                            {
+                                $name_field = ($element_type_name === 'modTemplate' ? 'templatename' : 'name');
 
-                            $element = $modx->getObject($element_type_name, array($name_field => $old_element_name));
+                                $element = $modx->getObject($element_type_name, array($name_field => $old_element_name));
 
-                            $element->remove();
+                                $element->remove();
+                            }
                         }
                     }
                 }
+
+                // Save the list of created elements
+                $element_history_setting = $modx->getObject('modSystemSetting', 'elementhelper.element_history');
+                $element_history_setting->set('value', serialize($element_helper->history));
+                $element_history_setting->save();
+
+                // Refresh the cache
+                $modx->cacheManager->refresh(array(
+                    'resource' => array()
+                ));
+
+                if ($debug)
+                {
+                    $modx->log(modX::LOG_LEVEL_INFO, $log_prefix . 'updated and cache refreshed!');
+                }
             }
-
-            // Save the list of created elements
-            $element_history_setting = $modx->getObject('modSystemSetting', 'elementhelper.element_history');
-            $element_history_setting->set('value', serialize($element_helper->history));
-            $element_history_setting->save();
-
-            // Refresh the cache
-            $modx->cacheManager->refresh(array(
-                'resource' => array()
-            ));
-
-            if ($debug)
+            else
             {
-                $modx->log(modX::LOG_LEVEL_INFO, $log_prefix . 'updated and cache refreshed!');
+                if ($debug)
+                {
+                    $modx->log(modX::LOG_LEVEL_INFO, $log_prefix . 'nothing changed! Last mod: ' . strftime('%d.%m.%Y %H:%M:%S', $modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions)));
+                }
             }
         }
-        else
-        {
-            if ($debug)
-            {
-                $modx->log(modX::LOG_LEVEL_INFO, $log_prefix . 'nothing changed! Last mod: ' . strftime('%d.%m.%Y %H:%M:%S', $modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions)));
-            }
-        }
-
     }
 
     $tv_json_path = MODX_BASE_PATH . $modx->getOption('elementhelper.tv_json_path', null, 'core/elements/template_variables.json');
