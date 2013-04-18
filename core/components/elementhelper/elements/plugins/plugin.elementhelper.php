@@ -2,7 +2,7 @@
 $packagename = 'elementhelper';
 
 // Turn debug messages on/off
-$debug = false;
+$debug = true;
 
 if ($debug)
 {
@@ -89,6 +89,8 @@ if ($modx->user->isMember($usergroups))
     // Create all the templates, snippets, chunks and plugins
     foreach ($element_types as $element_type)
     {
+        $log_prefix = '[' . $packagename . '] ' . $element_type['class_name'] . ': ';
+
         $file_list = get_files(MODX_BASE_PATH . $element_type['path'], $modx);
 
         // Stores the time the file was modified at
@@ -195,14 +197,14 @@ if ($modx->user->isMember($usergroups))
 
             if ($debug)
             {
-                $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] ' . $element_type['class_name'] . ': updated and cache refreshed!');
+                $modx->log(modX::LOG_LEVEL_INFO, $log_prefix . 'updated and cache refreshed!');
             }
         }
         else
         {
             if ($debug)
             {
-                $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] ' . $element_type['class_name'] . ': nothing changed! Last mod: ' . strftime('%d.%m.%Y %H:%M:%S', $modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions)));
+                $modx->log(modX::LOG_LEVEL_INFO, $log_prefix . 'nothing changed! Last mod: ' . strftime('%d.%m.%Y %H:%M:%S', $modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions)));
             }
         }
 
@@ -213,6 +215,8 @@ if ($modx->user->isMember($usergroups))
     // Get the template variables
     if (file_exists($tv_json_path))
     {
+        $log_prefix = '[' . $packagename . '] modTemplateVar: ';
+
         $tv_json = file_get_contents($tv_json_path);
         $tvs = json_decode($tv_json);
         $tv_names = array();
@@ -273,14 +277,14 @@ if ($modx->user->isMember($usergroups))
 
             if ($debug)
             {
-                $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] modTemplateVar: updated and cache refreshed!');
+                $modx->log(modX::LOG_LEVEL_INFO, $log_prefix . 'updated and cache refreshed!');
             }
         }
         else
         {
             if ($debug)
             {
-                $modx->log(modX::LOG_LEVEL_INFO, '[' . $packagename . '] modTemplateVar: nothing changed! Last mod: ' . strftime('%d.%m.%Y %H:%M:%S', $modx->cacheManager->get($cacheid . '.modTemplateVar', $cacheoptions)));
+                $modx->log(modX::LOG_LEVEL_INFO, $log_prefix . 'nothing changed! Last mod: ' . strftime('%d.%m.%Y %H:%M:%S', $modx->cacheManager->get($cacheid . '.modTemplateVar', $cacheoptions)));
             }
         }
     }
