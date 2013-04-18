@@ -1,7 +1,7 @@
 --------------------
 Extra: Element Helper
 --------------------
-Version: 1.2.2
+Version: 1.3.0
  
 Element Helper is a MODx Revolution plugin for automatically creating elements from static files without the MODx manager.
 
@@ -76,3 +76,5 @@ Elements media source: Set a media source for your static elements
 Description key: Set a key that will be used to find descriptions for your element files
 
 Default Description: Set a default description for elements created with files
+
+Usergroups: Set usergroups that ElementHelper should run for

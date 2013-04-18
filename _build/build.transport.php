@@ -7,7 +7,7 @@ set_time_limit(0);
 
 define('PKG_NAME', 'ElementHelper');
 define('PKG_NAME_LOWER', 'elementhelper');
-define('PKG_VERSION', '1.2.2');
+define('PKG_VERSION', '1.3.0');
 
 $root = dirname(dirname(__FILE__)) . '/';
 
