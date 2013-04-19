@@ -37,6 +37,8 @@ Template Variables are managed using a JSON file, if you're using the default se
 
 Expanding on that example you could add an image template variable that is assigned to two templates called 'home' and 'standard_page' with the following:
 
+Note: The "Template Variable Access Control" setting must be set to "Yes" for the template_access feature to work. See the Configuration section for more information.
+
 ```json
 [{
     "name": "example_text_tv",
@@ -50,10 +52,6 @@ Expanding on that example you could add an image template variable that is assig
     "template_access": ["home", "standard_page"]
 }]
 ```
-
-### Note
-
-The "Template Variable Access Control" setting must be set to "Yes" for the template_access feature to work. See the Configuration section for more information.
 
 ###### Template Variable Properties
 
