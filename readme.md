@@ -51,6 +51,10 @@ Expanding on that example you could add an image template variable that is assig
 }]
 ```
 
+### Note
+
+The "Template Variable Access Control" setting must be set to "Yes" for the template_access feature to work. See the Configuration section for more information.
+
 ###### Template Variable Properties
 
 * "type" The input type of this TV
