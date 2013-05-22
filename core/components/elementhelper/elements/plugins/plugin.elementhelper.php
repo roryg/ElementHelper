@@ -92,17 +92,21 @@ if ($modx->user->isMember($usergroups))
         $log_prefix = '[' . $packagename . '] ' . $element_type['class_name'] . ': ';
 
         $file_list = get_files(MODX_BASE_PATH . $element_type['path'], $modx);
+        $file_name = array();
 
         // Stores the time the file was modified at
         $modified = array();
 
-        // Go through all files in $file_list and 
+        // Go through all files in $file_list
         foreach ($file_list as $file) {
+            $file_type = explode('.', $file);
+            $file_type = '.' . end($file_type);
+            $file_name = basename($file, $file_type);
+
+            $file_names[] = $file_name;
+
             // should prevent problems when files have the same timestamp and would have the 
             // same array key... just adding a small random number of seconds to the filetime
-            // 
-            // NOTE: (Is there a reason for the timestamp beign the array key? Perhaps making 
-            // the filename the array key would be better?)
             if (array_key_exists(filemtime($file), $file_list))
             {
                 if (touch($file, filemtime($file) + mt_rand(1, 100)))
@@ -126,6 +130,35 @@ if ($modx->user->isMember($usergroups))
 
             // Cut the array at first item = most recently modified file
             $last_mod = key(array_slice($file_list, 0, 1, true));
+
+            // Remove elements that are in the element history but no longer exist in the elements dir
+            if ($modx->getOption('elementhelper.auto_remove_elements', null, true))
+            {
+                $element_type_name = $element_type['class_name'];
+
+                // Check if a history for this element type exists
+                if (isset($element_history[$element_type_name]))
+                {
+                    // Loop through the element history for this element type
+                    foreach ($element_history[$element_type_name] as $old_element_name)
+                    {
+                        // Remove the element if it's not in the list of files
+                        if (! in_array($old_element_name, $file_names))
+                        {
+                            $name_field = ($element_type_name === 'modTemplate' ? 'templatename' : 'name');
+
+                            $element = $modx->getObject($element_type_name, array($name_field => $old_element_name));
+
+                            $element->remove();
+                        }
+                    }
+                }
+            }
+
+            // Save the list of created elements
+            $element_history_setting = $modx->getObject('modSystemSetting', 'elementhelper.element_history');
+            $element_history_setting->set('value', serialize($element_helper->history));
+            $element_history_setting->save();
 
             // Check if cachefile exists / should be renewed / or cached if not there already
             if (is_null($modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions)) || $modx->cacheManager->get($cacheid . '.' . $element_type['class_name'], $cacheoptions) !== $last_mod)
@@ -159,35 +192,6 @@ if ($modx->user->isMember($usergroups))
 
                     $element_helper->create_element($element_type, $file, $file_type, $file_name);
                 }
-
-                // Remove elements that are in the element history but no longer exist in the elements dir
-                if ($modx->getOption('elementhelper.auto_remove_elements', null, true))
-                {
-                    $element_type_name = $element_type['class_name'];
-
-                    // Check if a history for this element type exists
-                    if (isset($element_history[$element_type_name]))
-                    {
-                        // Loop through the element history for this element type
-                        foreach ($element_history[$element_type_name] as $old_element_name)
-                        {
-                            // Remove the element if it's not in the list of files
-                            if (! in_array($old_element_name, $file_names))
-                            {
-                                $name_field = ($element_type_name === 'modTemplate' ? 'templatename' : 'name');
-
-                                $element = $modx->getObject($element_type_name, array($name_field => $old_element_name));
-
-                                $element->remove();
-                            }
-                        }
-                    }
-                }
-
-                // Save the list of created elements
-                $element_history_setting = $modx->getObject('modSystemSetting', 'elementhelper.element_history');
-                $element_history_setting->set('value', serialize($element_helper->history));
-                $element_history_setting->save();
 
                 // Refresh the cache
                 $modx->cacheManager->refresh(array(
