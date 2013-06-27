@@ -221,7 +221,7 @@ if ($modx->user->isMember($usergroups))
         $log_prefix = '[' . $packagename . '] modTemplateVar: ';
 
         $tv_json = file_get_contents($tv_json_path);
-        $tvs = json_decode($tv_json);
+        $tvs = ($tv_json === '' ? json_decode('[]') : json_decode($tv_json));
         $tv_names = array();
         $last_mod = filemtime($tv_json_path);
 
