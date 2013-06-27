@@ -1,6 +1,12 @@
+Element Helper 1.3.2
+====================================
+- Fixed issue where deleting everything in the template_variables.json file prevented TVs from being removed in the manager.
+
+
 Element Helper 1.3.1
 ====================================
 - Fixed bug causing the Auto Remove Elements option to not work properly
+
 
 Element Helper 1.3.0
 ====================================
