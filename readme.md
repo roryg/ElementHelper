@@ -48,14 +48,14 @@ Note: The "Template Variable Access Control" setting must be set to "Yes" for th
 },{
     "name": "example_image_tv",
     "caption": "Example Image TV",
-    "type": "Image",
+    "type": "image",
     "template_access": ["home", "standard_page"]
 }]
 ```
 
 ###### Template Variable Properties
 
-* "type" The input type of this TV
+* "type" The input type of this TV (all types should be lowercase)
 * "name" The name of this TV, and key by which it will be referenced in tags
 * "caption" The caption that will be used to display the name of this TV when on the Resource page
 * "description" A user-provided description of this TV
