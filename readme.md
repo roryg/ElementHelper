@@ -50,6 +50,23 @@ Note: The "Template Variable Access Control" setting must be set to "Yes" for th
     "caption": "Example Image TV",
     "type": "image",
     "template_access": ["home", "standard_page"]
+},{
+    "name": "example_migx_tv",
+    "caption": "Example MIGX TV",
+    "type": "migx",
+    "template_access": ["home", "standard_page"],
+    "input_properties": {
+        "formtabs": [
+        {"caption":"Info","fields":[{
+            "field":"titles", "caption":"Title"
+            }]
+        }],
+        "columns": [{
+            "header":"Title", "width": "160", "sortable":"true", "dataIndex":"titles"
+        }],
+        "btntext": "Test Label",
+        "autoResourceFolders": "false"
+    }
 }]
 ```
 
