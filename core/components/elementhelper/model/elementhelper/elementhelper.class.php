@@ -92,6 +92,13 @@ class ElementHelper
                     }
                 }
 
+                // Simple check to see if this is a MIGX TV
+                if (isset($value->formtabs))
+                {
+                    // A warning notice is output if this isn't set
+                    $input_properties['configs'] = '';
+                }
+
                 $element->set('input_properties', $input_properties);
             }
             else if ($property !== 'name' && $property !== 'template_access')
