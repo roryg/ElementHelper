@@ -77,18 +77,24 @@ class ElementHelper
             $value = ($property === 'category' ? $this->get_category_id($value) : $value);
 
             // input_properties fix, manualy convert to array before passing into set()
-            if($property == 'input_properties'){
-                foreach ($value as $key => $item) {
+            if($property === 'input_properties')
+            {
+                foreach ($value as $key => $item)
+                {
                     //MIGX Fix, convert array object into json string
-                    if($key == 'formtabs' || $key == 'columns'){
+                    if ($key === 'formtabs' || $key === 'columns')
+                    {
                         $input_properties[$key] = json_encode($item);
-                    }else{
+                    }
+                    else
+                    {
                         $input_properties[$key] = $item;
                     }
                 }
-                $element->set('input_properties',$input_properties);
+
+                $element->set('input_properties', $input_properties);
             }
-            if ($property !== 'name' && $property !== 'template_access' && $property !== 'input_properties')
+            else if ($property !== 'name' && $property !== 'template_access')
             {
                 $element->set($property, $value);
             }
