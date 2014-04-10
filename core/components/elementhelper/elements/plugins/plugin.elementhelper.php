@@ -65,7 +65,7 @@ if ($modx->user->isMember($usergroups))
             // Get a list of files from the element types directory
             while (($item = readdir($directory)) !== false)
             {   
-                if ($item !== '.' && $item !== '..')
+                if ($item !== '.' && $item !== '..' && $item != '.DS_Store')
                 {
                     $item_path = $directory_path . $item;
 
