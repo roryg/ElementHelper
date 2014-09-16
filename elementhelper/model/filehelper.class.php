@@ -75,11 +75,11 @@ class FileHelper
 	 */
 	static function get_file_meta($file_path)
 	{
-		$file_name = explode('.', basename($file_path));
+		$path_parts = pathinfo($file_path);
 
 		$meta = array(
-			'name' => $file_name[0],
-			'type' => $file_name[1],
+			'name' => basename($file_path, '.' . $path_parts['extension']),
+			'type' => $path_parts['extension'],
 			'mod_time' => filemtime($file_path)
 		);
 
