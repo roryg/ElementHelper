@@ -138,7 +138,22 @@ class ElementSync
 	 */
 	public function remove_element($type, $name)
 	{
-		unset($this->elements[$type][$name]);
+		if ($type === 'modTemplateVar')
+		{
+			// Loop through the tvs to find the tv we want to remove
+			foreach ($this->elements[$type]['tvs'] as $i => $tv_name)
+			{
+				if ($tv_name === $name)
+				{
+					unset($this->elements[$type]['tvs'][$i]);
+					break;
+				}
+			}
+		}
+		else
+		{
+			unset($this->elements[$type][$name]);
+		}
 
 		$sync_json = json_encode($this->elements);
 

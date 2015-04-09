@@ -209,4 +209,44 @@ if (file_exists($tv_file_path))
 	{
 		$modx->log(MODX_LOG_LEVEL_INFO, $log_prefix . 'The template variable JSON file has no template variables to process.');
 	}
+
+	// Process the template variable elements
+	foreach ($modx->getCollection('modTemplateVar') as $element_object)
+	{
+		// Check if the tv exists in the template variables file
+		$element = Element::insert($element_object);
+		$name = $element->get_property('name');
+		$tv_file_has_tv = false;
+
+		// Loop through the tvs to check if it exists in the template variables file
+		foreach ($tvs as $i => $tv)
+		{
+			if ($tv->name === $name)
+			{
+				$tv_file_has_tv = true;
+			}
+		}
+
+		// If the tv doesn't exist in the template variables json file
+		if ($tv_file_has_tv === false)
+		{
+			// If the element is not in the sync
+			if ( ! $element_sync->has_element('modTemplateVar', $name))
+			{
+				// Add the tv to the template variables file and add it to the sync
+			}
+			else
+			{
+				// Remove the element and remove it from the sync if successful
+				if ($element->remove())
+				{
+					$element_sync->remove_element('modTemplateVar', $name);
+				}
+			}
+		}
+		else
+		{
+			// Update the tv ???
+		}
+	}
 }
