@@ -255,7 +255,31 @@ if (file_exists($tv_file_path))
             // If the element is not in the sync
             if ( ! $element_sync->has_element('modTemplateVar', $name))
             {
-                // Add the tv to the template variables file and add it to the sync
+                // Collect the tv element properties
+                $new_tv= array(array(
+                    'name' => $name,
+                    'caption' => $element->get_property('caption'),
+                    'type' => $element->get_property('type'),
+                    'description' => $element->get_property('description'),
+                    'category' => $element->get_property('category'),
+                    'locked' => $element->get_property('locked'),
+                    'elements' => $element->get_property('elements'),
+                    'rank' => $element->get_property('rank'),
+                    'display' => $element->get_property('display'),
+                    'default_text' => $element->get_property('default_text'),
+                    'properties' => $element->get_property('properties'),
+                    'input_properties' => $element->get_property('input_properties'),
+                    'output_properties' => $element->get_property('output_properties')
+                ));
+
+                $updated_tvs = array_merge($tvs, $new_tv);
+
+                // Update the template variables file and add the tv to the sync
+                if ($element_helper->update_tv_file($updated_tvs))
+                {
+                    $tv_file_mod_time = filemtime($tv_file_path);
+                    $element_sync->add_element('modTemplateVar', $name, $tv_file_mod_time);
+                }
             }
             else
             {
