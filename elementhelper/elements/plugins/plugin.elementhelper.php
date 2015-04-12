@@ -193,7 +193,7 @@ if (file_exists($tv_file_path))
             else
             {
                 // If the template variable file has been updated update the tv element and sync
-                if ($tv_file_mod_time > $element_sync->get_tv_mod_time())
+                if ($tv_file_mod_time > $element_sync->get_element_mod_time('modTemplateVar', $tv->name))
                 {
                     $properties = $element_helper->get_tv_element_properties($tv);
 
@@ -289,10 +289,6 @@ if (file_exists($tv_file_path))
                     $element_sync->remove_element('modTemplateVar', $name);
                 }
             }
-        }
-        else
-        {
-            // Update the tv ???
         }
     }
 }

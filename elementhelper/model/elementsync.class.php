@@ -56,16 +56,6 @@ class ElementSync
 	 */
 	public function has_element($type, $name)
 	{
-		if ($type === 'modTemplateVar')
-		{
-			if (isset($this->elements[$type]) && in_array($name, $this->elements[$type]['tvs']))
-			{
-				return true;
-			}
-
-			return false;
-		}
-
 		return (isset($this->elements[$type][$name]) ? true : false);
 	}
 
@@ -83,16 +73,6 @@ class ElementSync
 	}
 
 	/**
-	 * Gets the modification time for tv elements
-	 * 
-	 * @return interger | boolean
-	 */
-	public function get_tv_mod_time()
-	{
-		return (isset($this->elements['modTemplateVar']['mod_time']) ? $this->elements['modTemplateVar']['mod_time'] : false);
-	}
-
-	/**
 	 * Adds an element to the sync
 	 * 
 	 * @param string $type
@@ -103,20 +83,7 @@ class ElementSync
 	 */
 	public function add_element($type, $name, $mod_time)
 	{
-		if ($type === 'modTemplateVar')
-		{
-			$this->elements[$type]['mod_time'] = $mod_time;
-
-			// If this element isn't in the tv sync
-			if ( ! isset($this->elements[$type]['tvs']) || ! in_array($name, $this->elements[$type]['tvs']))
-			{
-				$this->elements[$type]['tvs'][] = $name;
-			}
-		}
-		else
-		{
-			$this->elements[$type][$name] = $mod_time;
-		}
+		$this->elements[$type][$name] = $mod_time;
 
 		$sync_json = json_encode($this->elements);
 
@@ -138,22 +105,7 @@ class ElementSync
 	 */
 	public function remove_element($type, $name)
 	{
-		if ($type === 'modTemplateVar')
-		{
-			// Loop through the tvs to find the tv we want to remove
-			foreach ($this->elements[$type]['tvs'] as $i => $tv_name)
-			{
-				if ($tv_name === $name)
-				{
-					unset($this->elements[$type]['tvs'][$i]);
-					break;
-				}
-			}
-		}
-		else
-		{
-			unset($this->elements[$type][$name]);
-		}
+		unset($this->elements[$type][$name]);
 
 		$sync_json = json_encode($this->elements);
 
