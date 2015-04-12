@@ -261,7 +261,7 @@ if (file_exists($tv_file_path))
                     'caption' => $element->get_property('caption'),
                     'type' => $element->get_property('type'),
                     'description' => $element->get_property('description'),
-                    'category' => $element->get_property('category'),
+                    'category' => ($element->get_property('category') !== 0 ? $element->get_property('category') : null),
                     'locked' => $element->get_property('locked'),
                     'elements' => $element->get_property('elements'),
                     'rank' => $element->get_property('rank'),
