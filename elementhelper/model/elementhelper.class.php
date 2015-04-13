@@ -274,6 +274,24 @@ class ElementHelper
 			$properties['category'] = 0;
 		}
 
+		if (isset($tv->input_properties->formtabs))
+		{
+			foreach ($tv->input_properties as $property => $value)
+            {
+                // MIGX Fix, convert array object into json string
+                if ($property === 'formtabs' || $property === 'columns')
+                {
+                    $properties['input_properties'][$property] = json_encode($value);
+                }
+                else
+                {
+                    $properties['input_properties'][$property] = $value;
+                }
+            }
+
+            $properties['input_properties']['configs'] = '';
+		}
+
 		return $properties;
 	}
 

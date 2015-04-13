@@ -272,6 +272,13 @@ if (file_exists($tv_file_path))
                     'output_properties' => $element->get_property('output_properties')
                 ));
 
+                // Fix migx json properties
+                if (isset($new_tv[0]['input_properties']['formtabs']))
+                {
+                    $new_tv[0]['input_properties']['formtabs'] = json_decode($new_tv[0]['input_properties']['formtabs']);
+                    $new_tv[0]['input_properties']['columns'] = json_decode($new_tv[0]['input_properties']['columns']);
+                }
+
                 $updated_tvs = array_merge($tvs, $new_tv);
 
                 // Update the template variables file and add the tv to the sync
