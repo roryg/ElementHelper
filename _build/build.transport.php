@@ -16,13 +16,13 @@ define('PKG_RELEASE', 'rc');
 $root = dirname(dirname(__FILE__)) . '/';
 
 $sources = array(
-	'root' => $root,
-	'build' => $root . '_build/',
-	'data' => $root . '_build/data/',
-	'lexicon' => $root . PKG_NAME_LOWER . '/lexicon/',
-	'docs' => $root . PKG_NAME_LOWER . '/docs/',
-	'elements' => $root . PKG_NAME_LOWER . '/elements/',
-	'source_core' => $root . PKG_NAME_LOWER
+    'root' => $root,
+    'build' => $root . '_build/',
+    'data' => $root . '_build/data/',
+    'lexicon' => $root . PKG_NAME_LOWER . '/lexicon/',
+    'docs' => $root . PKG_NAME_LOWER . '/docs/',
+    'elements' => $root . PKG_NAME_LOWER . '/elements/',
+    'source_core' => $root . PKG_NAME_LOWER
 );
 
 $modx = new modX();
@@ -37,10 +37,10 @@ $modx->loadClass('transport.modPackageBuilder', '', false, true);
 $builder = new modPackageBuilder($modx);
 $builder->createPackage(PKG_NAME_LOWER, PKG_VERSION, PKG_RELEASE);
 $builder->registerNamespace(
-	PKG_NAME_LOWER, 
-	false, 
-	true, 
-	'{core_path}components/' . PKG_NAME_LOWER . '/'
+    PKG_NAME_LOWER, 
+    false, 
+    true, 
+    '{core_path}components/' . PKG_NAME_LOWER . '/'
 );
 
 // Setup the package category
@@ -60,23 +60,23 @@ $settings = include $sources['data'] . 'transport.settings.php';
 $modx->log(modX::LOG_LEVEL_INFO, 'Packaging in plugins...');
 
 $attributes = array(
-	xPDOTransport::UNIQUE_KEY => 'name',
-	xPDOTransport::PRESERVE_KEYS => true,
-	xPDOTransport::UPDATE_OBJECT => false,
-	xPDOTransport::RELATED_OBJECTS => true,
-	xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-		'PluginEvents' => array(
-			xPDOTransport::UNIQUE_KEY => array('pluginid', 'event'),
-			xPDOTransport::PRESERVE_KEYS => true,
-			xPDOTransport::UPDATE_OBJECT => false
-		)
-	)
+    xPDOTransport::UNIQUE_KEY => 'name',
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => false,
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
+        'PluginEvents' => array(
+            xPDOTransport::UNIQUE_KEY => array('pluginid', 'event'),
+            xPDOTransport::PRESERVE_KEYS => true,
+            xPDOTransport::UPDATE_OBJECT => false
+        )
+    )
 );
 
 foreach ($plugins as $plugin)
 {
-	$vehicle = $builder->createVehicle($plugin, $attributes);
-	$builder->putVehicle($vehicle);
+    $vehicle = $builder->createVehicle($plugin, $attributes);
+    $builder->putVehicle($vehicle);
 }
 
 $category->addMany($plugins);
@@ -93,15 +93,15 @@ $modx->log(modX::LOG_LEVEL_INFO, 'Packaged in plugins.'); flush();
 $modx->log(modX::LOG_LEVEL_INFO, 'Packaging in settings...');
 
 $attributes= array(
-	xPDOTransport::UNIQUE_KEY => 'key',
-	xPDOTransport::PRESERVE_KEYS => true,
-	xPDOTransport::UPDATE_OBJECT => false,
+    xPDOTransport::UNIQUE_KEY => 'key',
+    xPDOTransport::PRESERVE_KEYS => true,
+    xPDOTransport::UPDATE_OBJECT => false,
 );
 
 foreach ($settings as $setting)
 {
-	$vehicle = $builder->createVehicle($setting, $attributes);
-	$builder->putVehicle($vehicle);
+    $vehicle = $builder->createVehicle($setting, $attributes);
+    $builder->putVehicle($vehicle);
 }
 
 $modx->log(modX::LOG_LEVEL_INFO, 'Packaged in settings.'); flush();
@@ -115,30 +115,30 @@ $modx->log(modX::LOG_LEVEL_INFO, 'Packaged in settings.'); flush();
 $modx->log(modX::LOG_LEVEL_INFO, 'Packaging in category...');
 
 $attributes = array(
-	xPDOTransport::UNIQUE_KEY => 'category',
-	xPDOTransport::PRESERVE_KEYS => false,
-	xPDOTransport::UPDATE_OBJECT => true,
-	xPDOTransport::RELATED_OBJECTS => true,
-	xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-		'Children' => array(
-			xPDOTransport::UNIQUE_KEY => 'category',
-			xPDOTransport::PRESERVE_KEYS => false,
-			xPDOTransport::UPDATE_OBJECT => true,
-			xPDOTransport::RELATED_OBJECTS => true,
-			xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-				'Plugins' => array(
-					xPDOTransport::UNIQUE_KEY => 'name',
-					xPDOTransport::PRESERVE_KEYS => false,
-					xPDOTransport::UPDATE_OBJECT => true
-				)
-			)
-		),
-		'Plugins' => array(
-			xPDOTransport::UNIQUE_KEY => 'name',
-			xPDOTransport::PRESERVE_KEYS => false,
-			xPDOTransport::UPDATE_OBJECT => true
-		)
-	)
+    xPDOTransport::UNIQUE_KEY => 'category',
+    xPDOTransport::PRESERVE_KEYS => false,
+    xPDOTransport::UPDATE_OBJECT => true,
+    xPDOTransport::RELATED_OBJECTS => true,
+    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
+        'Children' => array(
+            xPDOTransport::UNIQUE_KEY => 'category',
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true,
+            xPDOTransport::RELATED_OBJECTS => true,
+            xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
+                'Plugins' => array(
+                    xPDOTransport::UNIQUE_KEY => 'name',
+                    xPDOTransport::PRESERVE_KEYS => false,
+                    xPDOTransport::UPDATE_OBJECT => true
+                )
+            )
+        ),
+        'Plugins' => array(
+            xPDOTransport::UNIQUE_KEY => 'name',
+            xPDOTransport::PRESERVE_KEYS => false,
+            xPDOTransport::UPDATE_OBJECT => true
+        )
+    )
 );
 
 $vehicle = $builder->createVehicle($category, $attributes);
@@ -146,8 +146,8 @@ $vehicle = $builder->createVehicle($category, $attributes);
 $modx->log(modX::LOG_LEVEL_INFO, 'Adding file resolvers to category...');
 
 $vehicle->resolve('file', array(
-	'source' => $sources['source_core'],
-	'target' => "return MODX_CORE_PATH . 'components/';",
+    'source' => $sources['source_core'],
+    'target' => "return MODX_CORE_PATH . 'components/';",
 ));
 
 $modx->log(modX::LOG_LEVEL_INFO, 'Packaged in resolvers.'); flush();
@@ -163,9 +163,9 @@ $builder->putVehicle($vehicle);
 $modx->log(modX::LOG_LEVEL_INFO,'Adding package attributes...');
 
 $builder->setPackageAttributes(array(
-	'license' => file_get_contents($sources['docs'] . 'license.txt'),
-	'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
-	'changelog' => file_get_contents($sources['docs'] . 'changelog.txt')
+    'license' => file_get_contents($sources['docs'] . 'license.txt'),
+    'readme' => file_get_contents($sources['docs'] . 'readme.txt'),
+    'changelog' => file_get_contents($sources['docs'] . 'changelog.txt')
 ));
 
 $modx->log(modX::LOG_LEVEL_INFO, 'Packing up transport package zip...'); flush();

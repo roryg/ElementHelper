@@ -4,65 +4,65 @@ $settings = array();
 
 $settings['elementhelper.chunk_path'] = $modx->newObject('modSystemSetting');
 $settings['elementhelper.chunk_path']->fromArray(array(
-	'key' => 'elementhelper.chunk_path',
-	'value' => 'site/elements/chunks/',
-	'xtype' => 'textfield',
-	'namespace' => 'elementhelper',
-	'area' => 'paths'
+    'key' => 'elementhelper.chunk_path',
+    'value' => 'site/elements/chunks/',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.template_path'] = $modx->newObject('modSystemSetting');
 $settings['elementhelper.template_path']->fromArray(array(
-	'key' => 'elementhelper.template_path',
-	'value' => 'site/elements/templates/',
-	'xtype' => 'textfield',
-	'namespace' => 'elementhelper',
-	'area' => 'paths'
+    'key' => 'elementhelper.template_path',
+    'value' => 'site/elements/templates/',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.plugin_path'] = $modx->newObject('modSystemSetting');
 $settings['elementhelper.plugin_path']->fromArray(array(
-	'key' => 'elementhelper.plugin_path',
-	'value' => 'site/elements/plugins/',
-	'xtype' => 'textfield',
-	'namespace' => 'elementhelper',
-	'area' => 'paths'
+    'key' => 'elementhelper.plugin_path',
+    'value' => 'site/elements/plugins/',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.snippet_path'] = $modx->newObject('modSystemSetting');
 $settings['elementhelper.snippet_path']->fromArray(array(
-	'key' => 'elementhelper.snippet_path',
-	'value' => 'site/elements/snippets/',
-	'xtype' => 'textfield',
-	'namespace' => 'elementhelper',
-	'area' => 'paths'
+    'key' => 'elementhelper.snippet_path',
+    'value' => 'site/elements/snippets/',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.tv_file_path'] = $modx->newObject('modSystemSetting');
 $settings['elementhelper.tv_file_path']->fromArray(array(
-	'key' => 'elementhelper.tv_file_path',
-	'value' => 'site/elements/template_variables.json',
-	'xtype' => 'textfield',
-	'namespace' => 'elementhelper',
-	'area' => 'paths'
+    'key' => 'elementhelper.tv_file_path',
+    'value' => 'site/elements/template_variables.json',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.element_sync_file_path'] = $modx->newObject('modSystemSetting');
 $settings['elementhelper.element_sync_file_path']->fromArray(array(
-	'key' => 'elementhelper.element_sync_file_path',
-	'value' => 'site/elements/element_sync.json',
-	'xtype' => 'textfield',
-	'namespace' => 'elementhelper',
-	'area' => 'paths'
+    'key' => 'elementhelper.element_sync_file_path',
+    'value' => 'site/elements/element_sync.json',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'paths'
 ), '', true, true);
 
 $settings['elementhelper.usergroups'] = $modx->newObject('modSystemSetting');
 $settings['elementhelper.usergroups']->fromArray(array(
-	'key' => 'elementhelper.usergroups',
-	'value' => 'Administrator',
-	'xtype' => 'textfield',
-	'namespace' => 'elementhelper',
-	'area' => 'config'
+    'key' => 'elementhelper.usergroups',
+    'value' => 'Administrator',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'config'
 ), '', true, true);
 
 
