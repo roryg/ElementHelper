@@ -30,6 +30,8 @@ $element_types = array(
     'modPlugin' => $modx->getOption('elementhelper.plugin_path', null, 'site/elements/plugins/')
 );
 
+$category_whitelist = array_map('trim', explode(',', $modx->getOption('elementhelper.category_whitelist', null, '')));
+
 // Loop through the element types
 foreach ($element_types as $type => $type_path)
 {
@@ -107,8 +109,19 @@ foreach ($element_types as $type => $type_path)
     {
         $element = Element::insert($element_object);
         $name = $element->get_property('name');
-        $category = $element->get_property('category');
-        $file_path = $element_helper->build_element_file_path($type, $type_path, $name, $category);
+        $category_id = $element->get_property('category');
+        $file_path = $element_helper->build_element_file_path($type, $type_path, $name, $category_id);
+
+        // Check if the element has a category and is whitelisted
+        if ($category_id !== 0)
+        {
+            $category = Element::get($modx, 'modCategory', $category_id);
+
+            if ( ! in_array($category->get_property('name'), $category_whitelist))
+            {
+                continue;
+            }
+        }
 
         // If a file with this element name doesn't exist
         if ( ! file_exists($file_path))
@@ -240,7 +253,19 @@ if (file_exists($tv_file_path))
         // Check if the tv exists in the template variables file
         $element = Element::insert($element_object);
         $name = $element->get_property('name');
+        $category_id = $element->get_property('category');
         $tv_file_has_tv = false;
+
+        // Check if the element has a category and is whitelisted
+        if ($category_id !== 0)
+        {
+            $category = Element::get($modx, 'modCategory', $category_id);
+
+            if ( ! in_array($category->get_property('name'), $category_whitelist))
+            {
+                continue;
+            }
+        }
 
         // Loop through the tvs to check if it exists in the template variables file
         foreach ($tvs as $i => $tv)

@@ -74,4 +74,13 @@ $settings['elementhelper.tv_access_control']->fromArray(array(
     'area' => 'config'
 ), '', true, true);
 
+$settings['elementhelper.category_whitelist'] = $modx->newObject('modSystemSetting');
+$settings['elementhelper.category_whitelist']->fromArray(array(
+    'key' => 'elementhelper.category_whitelist',
+    'value' => '',
+    'xtype' => 'textfield',
+    'namespace' => 'elementhelper',
+    'area' => 'config'
+), '', true, true);
+
 return $settings;
