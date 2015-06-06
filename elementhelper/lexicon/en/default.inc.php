@@ -20,3 +20,6 @@ $_lang['setting_elementhelper.element_sync_file_path_desc'] = "The path to your 
 
 $_lang['setting_elementhelper.usergroups'] = 'Usergroups';
 $_lang['setting_elementhelper.usergroups_desc'] = 'Comma-delimited list of usergroups where ElementHelper should be active, usually only the group for Administrators/Devs that can change files in the target directories.';
+
+$_lang['setting_elementhelper.tv_access_control'] = 'Template Variable Access Control';
+$_lang['setting_elementhelper.tv_access_control_desc'] = 'Allow ElementHelper to give template variables access to the templates you set in the template variable json file. Note: Turning this on will remove template variable access from all templates unless specified in the template variable json file. You will need to resave your tempate_variables.json file after turning this on.';

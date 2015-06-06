@@ -65,6 +65,13 @@ $settings['elementhelper.usergroups']->fromArray(array(
     'area' => 'config'
 ), '', true, true);
 
-
+$settings['elementhelper.tv_access_control'] = $modx->newObject('modSystemSetting');
+$settings['elementhelper.tv_access_control']->fromArray(array(
+    'key' => 'elementhelper.tv_access_control',
+    'value' => 0,
+    'xtype' => 'combo-boolean',
+    'namespace' => 'elementhelper',
+    'area' => 'config'
+), '', true, true);
 
 return $settings;

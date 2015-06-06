@@ -165,7 +165,8 @@ if (file_exists($tv_file_path))
                 {
                     $properties = $element_helper->get_tv_element_properties($tv);
 
-                    if (isset($tv->template_access))
+                    // If templates have been specified and permission to pair tvs with templates has been given
+                    if (isset($tv->template_access) && $modx->getOption('elementhelper.tv_access_control', null, false) == true)
                     {
                         $element_helper->setup_tv_template_access($element->get_property('id'), $tv->template_access);
                     }
@@ -197,7 +198,8 @@ if (file_exists($tv_file_path))
                 {
                     $properties = $element_helper->get_tv_element_properties($tv);
 
-                    if (isset($tv->template_access))
+                    // If templates have been specified and permission to pair tvs with templates has been given
+                    if (isset($tv->template_access) && $modx->getOption('elementhelper.tv_access_control', null, false) == true)
                     {
                         $element_helper->setup_tv_template_access($element->get_property('id'), $tv->template_access);
                     }
