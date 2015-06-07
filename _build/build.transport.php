@@ -11,7 +11,7 @@ require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
 define('PKG_NAME', 'ElementHelper');
 define('PKG_NAME_LOWER', 'elementhelper');
 define('PKG_VERSION', '2.0.0');
-define('PKG_RELEASE', 'rc');
+define('PKG_RELEASE', 'alpha-2');
 
 $root = dirname(dirname(__FILE__)) . '/';
 
@@ -43,46 +43,6 @@ $builder->registerNamespace(
     '{core_path}components/' . PKG_NAME_LOWER . '/'
 );
 
-// Setup the package category
-$category = $modx->newObject('modCategory');
-$category->set('id', 1);
-$category->set('category', PKG_NAME);
-
-$plugins = include $sources['data'] . 'transport.plugins.php';
-$settings = include $sources['data'] . 'transport.settings.php';
-
-//////////////////////////////////////////////////
-//
-// Package in the plugins
-//
-//////////////////////////////////////////////////
-
-$modx->log(modX::LOG_LEVEL_INFO, 'Packaging in plugins...');
-
-$attributes = array(
-    xPDOTransport::UNIQUE_KEY => 'name',
-    xPDOTransport::PRESERVE_KEYS => true,
-    xPDOTransport::UPDATE_OBJECT => false,
-    xPDOTransport::RELATED_OBJECTS => true,
-    xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-        'PluginEvents' => array(
-            xPDOTransport::UNIQUE_KEY => array('pluginid', 'event'),
-            xPDOTransport::PRESERVE_KEYS => true,
-            xPDOTransport::UPDATE_OBJECT => false
-        )
-    )
-);
-
-foreach ($plugins as $plugin)
-{
-    $vehicle = $builder->createVehicle($plugin, $attributes);
-    $builder->putVehicle($vehicle);
-}
-
-$category->addMany($plugins);
-
-$modx->log(modX::LOG_LEVEL_INFO, 'Packaged in plugins.'); flush();
-
 //////////////////////////////////////////////////
 //
 // Package in the settings
@@ -91,6 +51,8 @@ $modx->log(modX::LOG_LEVEL_INFO, 'Packaged in plugins.'); flush();
 
 // Package in the settings
 $modx->log(modX::LOG_LEVEL_INFO, 'Packaging in settings...');
+
+$settings = include $sources['data'] . 'transport.settings.php';
 
 $attributes= array(
     xPDOTransport::UNIQUE_KEY => 'key',
@@ -108,11 +70,20 @@ $modx->log(modX::LOG_LEVEL_INFO, 'Packaged in settings.'); flush();
 
 //////////////////////////////////////////////////
 //
-// Package in the category
+// Package in the category & plugin
 //
 //////////////////////////////////////////////////
 
 $modx->log(modX::LOG_LEVEL_INFO, 'Packaging in category...');
+
+// Setup the package category
+$category = $modx->newObject('modCategory');
+$category->set('id', 1);
+$category->set('category', PKG_NAME);
+
+$plugins = include $sources['data'] . 'transport.plugins.php';
+
+$category->addMany($plugins);
 
 $attributes = array(
     xPDOTransport::UNIQUE_KEY => 'category',
@@ -120,23 +91,18 @@ $attributes = array(
     xPDOTransport::UPDATE_OBJECT => true,
     xPDOTransport::RELATED_OBJECTS => true,
     xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-        'Children' => array(
-            xPDOTransport::UNIQUE_KEY => 'category',
+        'Plugins' => array(
+            xPDOTransport::UNIQUE_KEY => 'name',
             xPDOTransport::PRESERVE_KEYS => false,
             xPDOTransport::UPDATE_OBJECT => true,
             xPDOTransport::RELATED_OBJECTS => true,
             xPDOTransport::RELATED_OBJECT_ATTRIBUTES => array(
-                'Plugins' => array(
-                    xPDOTransport::UNIQUE_KEY => 'name',
-                    xPDOTransport::PRESERVE_KEYS => false,
-                    xPDOTransport::UPDATE_OBJECT => true
+                'PluginEvents' => array(
+                    xPDOTransport::UNIQUE_KEY => array('pluginid', 'event'),
+                    xPDOTransport::PRESERVE_KEYS => true,
+                    xPDOTransport::UPDATE_OBJECT => false
                 )
             )
-        ),
-        'Plugins' => array(
-            xPDOTransport::UNIQUE_KEY => 'name',
-            xPDOTransport::PRESERVE_KEYS => false,
-            xPDOTransport::UPDATE_OBJECT => true
         )
     )
 );
