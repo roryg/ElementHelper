@@ -86,7 +86,7 @@ $settings['elementhelper.category_whitelist']->fromArray(array(
 $settings['elementhelper.element_blacklist'] = $modx->newObject('modSystemSetting');
 $settings['elementhelper.element_blacklist']->fromArray(array(
     'key' => 'elementhelper.element_blacklist',
-    'value' => 'TinyMCE, getResources, ClientConfig',
+    'value' => 'TinyMCE, Wayfinder, getResources, ClientConfig',
     'xtype' => 'textfield',
     'namespace' => 'elementhelper',
     'area' => 'config'
