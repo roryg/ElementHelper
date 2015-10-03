@@ -26,3 +26,6 @@ $_lang['setting_elementhelper.tv_access_control_desc'] = 'Allow ElementHelper to
 
 $_lang['setting_elementhelper.category_whitelist'] = 'Category Whitelist';
 $_lang['setting_elementhelper.category_whitelist_desc'] = 'Comma-delimited list of categories that ElementHelper is allowed to work with. This helps to prevent tracking elements (such as plugins) created by other Modx Extras.';
+
+$_lang['setting_elementhelper.element_blacklist'] = 'Element Blacklist';
+$_lang['setting_elementhelper.element_blacklist_desc'] = "Comma-delimited list of elements that ElementHelper should not keep track of. TinyMCE, getResources and ClientConfig are black listed by default because of how common they are.";

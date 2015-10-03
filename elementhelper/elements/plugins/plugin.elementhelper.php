@@ -31,6 +31,7 @@ $element_types = array(
 );
 
 $category_whitelist = array_map('trim', explode(',', $modx->getOption('elementhelper.category_whitelist', null, '')));
+$element_blacklist = array_map('trim', explode(',', $modx->getOption('elementhelper.element_blacklist', null, '')));
 
 // Loop through the element types
 foreach ($element_types as $type => $type_path)
@@ -111,6 +112,12 @@ foreach ($element_types as $type => $type_path)
         $name = $element->get_property('name');
         $category_id = $element->get_property('category');
         $file_path = $element_helper->build_element_file_path($type, $type_path, $name, $category_id);
+
+        // Check if the element is blacklisted
+        if (in_array($name, $element_blacklist))
+        {
+            continue;
+        }
 
         // Check if the element has a category and is whitelisted
         if ($category_id !== 0)
