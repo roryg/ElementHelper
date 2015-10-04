@@ -233,7 +233,6 @@ class ElementHelper
     /**
      * Gets the properties for a template variable
      * 
-     * @todo migx stuff
      * @todo map weird named properties to more sensible ones e.g. input option values is elements
      * @todo allow processing of additional values for properties like "display" e.g. when it's a url (related to output_properties?)
      * 

@@ -115,7 +115,6 @@ class Element
      * the $element object
      * 
      * @todo add name to this?
-     * @todo use switch?
      * 
      * @param array $properties
      * 
@@ -150,8 +149,6 @@ class Element
 
     /**
      * Gets the specifed properties value from the element object
-     * 
-     * @todo use switch?
      * 
      * @param string $property
      * 
