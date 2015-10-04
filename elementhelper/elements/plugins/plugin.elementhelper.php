@@ -191,6 +191,12 @@ if (file_exists($tv_file_path))
                         $element_helper->setup_tv_template_access($element->get_property('id'), $tv->template_access);
                     }
 
+                    // If a media source has been specified assign it to the TV
+                    if (isset($tv->media_source))
+                    {
+                        $element_helper->setup_tv_media_source($element->get_property('id'), $tv->media_source);
+                    }
+
                     // Set the tv properties and then add it to the sync
                     if ($element->set_properties($properties))
                     {
@@ -222,6 +228,12 @@ if (file_exists($tv_file_path))
                     if (isset($tv->template_access) && $modx->getOption('elementhelper.tv_access_control', null, false) == true)
                     {
                         $element_helper->setup_tv_template_access($element->get_property('id'), $tv->template_access);
+                    }
+
+                    // If a media source has been specified assign it to the TV
+                    if (isset($tv->media_source))
+                    {
+                        $element_helper->setup_tv_media_source($element->get_property('id'), $tv->media_source);
                     }
 
                     // Set the tv properties and then add it to the sync

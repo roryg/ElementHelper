@@ -296,6 +296,50 @@ class ElementHelper
     }
 
     /**
+     * Sets up the media source for a TV
+     *
+     * @param integer $tv_id
+     * @param string $media_source_name
+     *
+     * @return boolean
+     */
+    public function setup_tv_media_source($tv_id, $media_source_name)
+    {
+        $media_source = Element::get($this->modx, 'sources.modMediaSource', $media_source_name);
+        $media_source_id = $media_source->get_property('id');
+
+        $media_source_element = $this->modx->getObject('sources.modMediaSourceElement', array(
+            'object' => $tv_id,
+            'object_class' => 'modTemplateVar',
+            'context_key' => 'web'
+        ));
+
+        // Remove the media source element first if it exists (for some reason updating
+        // existing media source elements doesn't work)
+        if ($media_source_element)
+        {
+            $media_source_element->remove();
+        }
+
+        $media_source_element = $this->modx->newObject('sources.modMediaSourceElement');
+
+        $media_source_element->fromArray(array(
+            'object' => $tv_id,
+            'object_class' => 'modTemplateVar',
+            'context_key' => 'web'
+        ), '', true, true);
+
+        $media_source_element->set('source', $media_source_id);
+
+        if ( ! $media_source_element->save())
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Sets up all template access for a template variable
      * 
      * @param integer $tv_id
