@@ -11,7 +11,7 @@ require_once MODX_CORE_PATH . 'model/modx/modx.class.php';
 define('PKG_NAME', 'ElementHelper');
 define('PKG_NAME_LOWER', 'elementhelper');
 define('PKG_VERSION', '2.0.0');
-define('PKG_RELEASE', 'alpha-2');
+define('PKG_RELEASE', 'alpha-3');
 
 $root = dirname(dirname(__FILE__)) . '/';
 
